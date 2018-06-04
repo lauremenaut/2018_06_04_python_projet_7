@@ -16,12 +16,19 @@ class App:
         Manages ...
 
         """
-        pass
+        self.user_query = self.get_user_query()
+        self.words = self.cut_user_query(self.user_query)
+        print(self.words)
 
     def get_user_query(self):
-        user_query = input('Bonjour mon petit, quelle est la question ?')
-        # user_query = 'Quelle est l\'adresse de la piscine municipale ?'
+        # Sécuriser la saisie avec un try/except ??
+        # user_query = input('Bonjour mon petit, quelle est ta question ?\n')
+        user_query = 'Quelle est l\'adresse de la piscine municipale ?'
         return user_query
+
+    def cut_user_query(self, user_query):
+        words = user_query.split()
+        return words
 
 
 def main():
