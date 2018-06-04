@@ -2,8 +2,12 @@ from app import App
 
 
 class TestApp:
-    app = App()
+    appl = App()
 
     def test_get_user_query(self):
-        user_query = self.app.get_user_query()
-        assert user_query
+        user_query = self.appl.get_user_query()
+        assert type(user_query) == str
+
+    def test_cut_user_query(self):
+        words = self.appl.cut_user_query(self.appl.user_query)
+        assert type(words) == list
