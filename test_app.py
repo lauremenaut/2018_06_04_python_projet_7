@@ -1,13 +1,31 @@
+#! /usr/bin/env python3
+# coding: utf-8
+
 from app import App
+import builtins
 
 
 class TestApp:
-    appl = App()
+    app = App()
 
-    def test_get_user_query(self):
-        user_query = self.appl.get_user_query()
-        assert type(user_query) == str
+    def test_get_user_query(self, monkeypatch):
 
-    def test_cut_user_query(self):
-        words = self.appl.cut_user_query(self.appl.user_query)
-        assert type(words) == list
+        def mock_input(arg):
+            return "Où se trouve la Tour Eiffel ?"
+
+        monkeypatch.setattr(builtins, "input", mock_input)
+
+        user_query = self.app.get_user_query()
+        assert user_query == "où se trouve la tour eiffel ?"
+
+    def test_cut_into_sentences(self):
+        sentences = self.app.cut_into_sentences("salut vieux robot, quelle est l'adresse du cinéma le plus proche ?")
+        assert sentences == ["salut vieux robot", " quelle est l'adresse du cinéma le plus proche ?"]
+
+    def test_choose_sentence(self):
+        chosen_sentence = self.app.choose_sentence(["salut vieux robot", "quelle est l'adresse du cinéma le plus proche ?"])
+        assert chosen_sentence[-1] == "quelle est l'adresse du cinéma le plus proche ?"
+
+    def test_cut_chosen_sentence(self):
+        words = self.app.cut_chosen_sentence("quelle est l'adresse du cinéma le plus proche ?")
+        assert words == ['quelle', 'est', "l'adresse", 'du', 'cinéma', 'le', 'plus', 'proche', '?']
