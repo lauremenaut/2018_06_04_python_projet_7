@@ -1,0 +1,22 @@
+.grandpa_bot
+{
+    float: right;
+}
+
+header
+{
+    background-color: black;
+    color: white;
+    text-align: center;
+    height: 100px;
+}
+
+section
+{
+    height: 400px;
+}
+
+footer
+{
+    text-align: center;
+}
