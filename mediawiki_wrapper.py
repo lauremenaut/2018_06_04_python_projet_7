@@ -28,7 +28,7 @@ class MediaWikiWrapper:
         xxx
 
         """
-        self.wikipedia = MediaWiki()
+        self.wikipedia = MediaWiki(lang=u'fr')
         self.title = self.get_article_title(lat, lng)
         self.summary = self.get_summary(self.title)
 
