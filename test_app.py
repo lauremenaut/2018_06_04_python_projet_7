@@ -29,3 +29,7 @@ class TestApp:
     def test_cut_chosen_sentence(self):
         words = self.app.cut_chosen_sentence("quelle est l'adresse du cinéma le plus proche ?")
         assert words == ['quelle', 'est', "l'adresse", 'du', 'cinéma', 'le', 'plus', 'proche', '?']
+
+    def test_filter_words(self):
+        filtered_words = self.app.filter_words(['quelle', 'est', "l'adresse", 'du', 'cinéma', 'le', 'plus', 'proche', '?'])
+        assert filtered_words == ["cinéma"]
