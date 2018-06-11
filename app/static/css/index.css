@@ -1,0 +1,30 @@
+header
+{
+    background-color: black;
+    color: white;
+    text-align: center;
+    height: 185px;
+}
+
+footer
+{
+    text-align: center;
+}
+
+.grandpa_bot
+{
+    float: right;
+    border: 3px solid black;
+}
+
+#dialogue_area
+{
+    height: 200px;
+    border: 3px solid black;
+}
+
+#entry_field
+{
+    height: 100px;
+    border: 3px solid black;
+}
