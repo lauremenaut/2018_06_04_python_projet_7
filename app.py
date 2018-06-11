@@ -3,10 +3,13 @@
 
 """
 Exemples de questions posées par l'utilisateur :
-- Où se trouve l'Arc de triomphe à Paris ?
-- Salut vieux robot, quelle est l'adresse du cinéma le plus proche ?
-- Bonjour GrandPy, comment ça va ? J'aimerais savoir comment aller à la FNAC de Toulouse.
-- Quelle est l'adresse de la piscine de Foix ?
+Salut GrandPy ! Est-ce que tu connais, par hasard, l'adresse d'OpenClassrooms ?
+Où se trouve l'Arc de triomphe à Paris ?
+Salut vieux robot, quelle est l'adresse du cinéma le plus proche ?
+Bonjour GrandPy, comment ça va ? J'aimerais savoir comment aller au Pharmaprix d'Ahuntsic.
+Quelle est l'adresse de la piscine de Foix ?
+Comment aller à l'hôpital quand on habite à Laval ?
+J'aimerais aller voir la Tour Eiffel, peux-tu m'aider ?
 """
 
 import json
@@ -51,10 +54,10 @@ class App:
             try:
                 mediawiki_wrapper = MediaWikiWrapper(lat, lng)
                 summary = mediawiki_wrapper.summary
-                print("\nEn parlant de ça, savais-tu que ")
+                print("\nEn parlant de ça, j'avais une petite chose à te raconter ! ")
                 print(summary)
             except:  # Je ne connais pas le type d'erreur levée ...
-                pass
+                print("\nEtrangement, je ne connais aucune anecdote à ce sujet !")
 
     def parser(self):
         user_query = self.get_user_query()
@@ -63,7 +66,7 @@ class App:
         print("Sentences : ", sentences)
         chosen_sentence = self.choose_sentence(sentences)
         print("Chosen sentences : ", chosen_sentence)
-        words = self.cut_chosen_sentence(chosen_sentence[-1])  # Au cas où il y ait plusieurs phrases sélectionnées, on choisit la dernière.
+        words = self.cut_chosen_sentence(chosen_sentence)  # Au cas où il y ait plusieurs phrases sélectionnées, on choisit la dernière.
         print("Words : ", words)
         filtered_words = self.filter_words(words)
         print("Filtered words : ", filtered_words)
@@ -76,29 +79,64 @@ class App:
         return user_query_lower
 
     def cut_into_sentences(self, user_query):
-        # Ajouter aussi les autres signes de ponctuation :;?!.
-        sentences = user_query.split(",")
-        return sentences
+        # Est-ce qu'on ajoute aussi d'autres signes de ponctuation :;.?
+        cut_sentences = []
+
+        exclamation_split = user_query.split("!")
+        for exclamation_sentence in exclamation_split:
+            comma_split = exclamation_sentence.split(",")
+            for comma_sentence in comma_split:
+                cut_sentences.append(comma_sentence)
+
+        return cut_sentences
 
     def choose_sentence(self, sentences):
+#  On ouvre le fichier 'question_words.json'contenant les mots couramment contenus dans une question
+        with open("question_words.json", 'r') as f:
+            question_words = json.load(f)
+
+#  On fait une liste des phrases contenant au moins un mot contenu dans le fichier question_words.
         chosen_sentence = []
         for sentence in sentences:
-        # Peut-on faire plus élégant ? Est-on obligé de vérifier "ou" et "où" ?
-            if ("?" or "ou" or "où" or "comment" or "quel" or "quelle" or "est-ce" or "connais-tu" or "connaissez-vous") in sentence:
-                chosen_sentence.append(sentence)
+
+#  On découpe chaque phrase en mots:
+            words_of_sentence = self.cut_chosen_sentence(sentence)
+
+#  Si un mot de la phrase est contenu dans le fichier question_words, alors la phrase est retenue
+            for word in words_of_sentence:
+                if word in question_words:
+                    chosen_sentence.append(sentence)
+                    break
+
+#  Si aucune phrase ne contient de mot contenu dans le fichier question_words, alors, on garde toutes les phrases.
         if chosen_sentence == []:
             for sentence in sentences:
                 chosen_sentence.append(sentence)
-        return chosen_sentence
+
+        returned_sentence = ""
+        for sentence in chosen_sentence:
+            returned_sentence += " " + sentence
+
+        return returned_sentence
 
     def cut_chosen_sentence(self, chosen_sentence):
+        split_words = []
+#  On découpe la phrase en mots (à chaque espace)
         words = chosen_sentence.split()
-        return words
+#  On découpe les "mots" qui sont en fait des groupes de mots contenant une apostrophe
+        for word in words:
+            apostrophe_split = word.split("'")
+            for apostrophe_word in apostrophe_split:
+                split_words.append(apostrophe_word)
+        return split_words
 
     def filter_words(self, words):
+
+#  On ouvre le fichier 'stop_words.json'
         with open("stop_words.json", 'r') as f:
             stop_words = json.load(f)
 
+#  On fait une liste des mots qui ne sont pas contenus dans le fichier stop_words
         filtered_words = []
         for word in words:
             if word not in stop_words:
