@@ -4,24 +4,13 @@
 from flask import render_template
 
 from app import app
+from app.form import QueryForm
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    messages = [
-        {
-            'name': 'GrandPy',
-            'message': 'As-tu une question pour moi mon petit ?'
-        },
-        {
-            'name': 'Toi',
-            'message': "Quelle est l'adresse du cinéma le plus proche ?"
-        },
-        {
-            'name': 'GrandPy',
-            'message': 'Oh oui, je connais ...'
-        }
-
-    ]
-    return render_template('index.html', messages=messages)
+    form = QueryForm()
+    sentence1 = "Bonjour mon petit, as-tu une question pour moi ?"
+    # sentence2 =
+    # sentence3 =
+    return render_template('index.html', sentence1=sentence1, form=form)
