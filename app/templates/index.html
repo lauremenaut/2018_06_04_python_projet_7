@@ -8,22 +8,31 @@
     <body>
         <header>
             <img src="{{ url_for('static', filename='img/grandpa-bot-600x600-mini.jpg') }}" alt="GrandPy Bot" class="grandpa_bot" />
+            <br />
             <h1>Demandez ... GrandPy Bot vous répond !</h1>
             <hr/>
         </header>
 
         <section>
-            <div class="dialogue_area">
-                <p>Zone d'affichage du dialogue</p>
+            <div id="dialogue_area">
+                <p>{{ sentence1 }}</p>
+                <p>{{ sentence2 }}</p>
+                <p>{{ sentence3 }}</p>
             </div>
-            <div class="entry_field">
-                <p>Zone de saisie pour l'utilisateur</p>
-            </div>
+            <form method="post" action="" id="query_field">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.query.label }}<br>
+                    {{ form.query(cols=100, rows=2, maxlength=250, placeholder="Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?") }}
+                </p>
+            </form>
         </section>
 
         <footer>
             <h4>Laure MENAUT</h4>
             <a href="https://github.com/lauremenaut/2018_06_04_python_projet_7">Voir le projet sur GitHub</a>
         </footer>
+
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     </body>
 </html>
