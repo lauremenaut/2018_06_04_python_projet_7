@@ -7,6 +7,7 @@ from app import app
 from app.form import QueryForm
 
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     form = QueryForm()
