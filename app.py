@@ -32,7 +32,7 @@ class App:
         Manages ...
 
         """
-        pass
+        self.user_query = self.get_user_query()
 
     def run(self):
         carry_on = True
@@ -60,13 +60,12 @@ class App:
                 print("\nEtrangement, je ne connais aucune anecdote à ce sujet !")
 
     def parser(self):
-        user_query = self.get_user_query()
-        print("\nUser query : ", user_query)
-        sentences = self.cut_into_sentences(user_query)
+        print("\nUser query : ", self.user_query)
+        sentences = self.cut_into_sentences(self.user_query)
         print("Sentences : ", sentences)
         chosen_sentence = self.choose_sentence(sentences)
         print("Chosen sentences : ", chosen_sentence)
-        words = self.cut_chosen_sentence(chosen_sentence)  # Au cas où il y ait plusieurs phrases sélectionnées, on choisit la dernière.
+        words = self.cut_chosen_sentence(chosen_sentence)
         print("Words : ", words)
         filtered_words = self.filter_words(words)
         print("Filtered words : ", filtered_words)
