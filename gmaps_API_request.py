@@ -41,7 +41,7 @@ class GmapsApiRequest:
 
         """
         parameters = {
-            'address': query,
+            'address': " ".join(query),
             'key': GOOGLE_MAPS_GEOCODING_API_KEY
             }
 
