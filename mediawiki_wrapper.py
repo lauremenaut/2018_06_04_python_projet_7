@@ -29,34 +29,25 @@ class MediaWikiWrapper:
 
         """
         self.wikipedia = MediaWiki(lang=u'fr')
-        self.title = self.get_article_title(lat, lng)
-        self.summary = self.get_summary(self.title)
+        self.title, self.summary = self.get_article(lat, lng)
 
-    def get_article_title(self, lat, lng):
+    def get_article(self, lat, lng):
         """ Returns .
 
         xxx
 
         """
         article_title = self.wikipedia.geosearch(latitude=lat, longitude=lng)
-        return article_title[0]
+        article_page = self.wikipedia.page(article_title[0])
 
-    def get_summary(self, title):
-        """ Returns .
-
-        xxx
-
-        """
-        page = self.wikipedia.page(title)
-        return page.summary
-
+        return article_title[0], article_page.summary
 
 def main():
     mediawiki = MediaWikiWrapper(42.9600983, 1.609331)
     title = mediawiki.title
-    print("Titre du 1er article : ", title)
+    print("\nTitre du 1er article : ", title)
     summary = mediawiki.summary
-    print("Résumé : ", summary)
+    print("\nRésumé : ", summary)
 
 if __name__ == '__main__':
     main()
