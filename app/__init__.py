@@ -4,7 +4,7 @@
 from flask import Flask
 from config import Config
 
-app = Flask(__name__)
-app.config.from_object(Config)
+appl = Flask(__name__)
+appl.config.from_object(Config)
 
 from app import routes
