@@ -1,17 +1,21 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-from flask import render_template
+from flask import render_template, jsonify
 
-from app import app
+from app import appl
 from app.form import QueryForm
+from app.locate import locate
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
+@appl.route('/', methods=['GET', 'POST'])
+@appl.route('/index', methods=['GET', 'POST'])
 def index():
     form = QueryForm()
-    sentence1 = "Bonjour mon petit, as-tu une question pour moi ?"
-    # sentence2 =
-    # sentence3 =
-    return render_template('index.html', sentence1=sentence1, form=form)
+    return render_template('index.html', form=form)
+
+
+@appl.route('/locate', methods=['POST'])
+def query_locate():
+    form = QueryForm()
+    return jsonify({'localisation': locate(form.query.data)})
