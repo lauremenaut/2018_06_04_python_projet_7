@@ -14,11 +14,7 @@
         </header>
 
         <section>
-            <div id="dialogue_area">
-                <p>{{ sentence1 }}</p>
-                <p>{{ sentence2 }}</p>
-                <p>{{ sentence3 }}</p>
-            </div>
+            <div id="dialogue_area"></div>
             <form method="post" action="" id="query_field">
                 {{ form.hidden_tag() }}
                 <p>
@@ -34,7 +30,6 @@
         </footer>
 
         <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script src="{{ url_for('static', filename='js/ajax.js') }}"></script>
         <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     </body>
 </html>
