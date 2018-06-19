@@ -12,7 +12,8 @@ from app.locate import locate
 @appl.route('/index', methods=['GET', 'POST'])
 def index():
     form = QueryForm()
-    return render_template('index.html', form=form)
+    key = appl.config['GOOGLE_MAPS_API_KEY']
+    return render_template('index.html', form=form, key=key)
 
 
 @appl.route('/locate', methods=['POST'])
