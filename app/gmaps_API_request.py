@@ -42,7 +42,7 @@ class GmapsApiRequest:
         """
         parameters = {
             'address': " ".join(query),
-            'key': appl.config['GOOGLE_MAPS_GEOCODING_API_KEY']
+            'key': appl.config['GOOGLE_MAPS_API_KEY']
             }
 
         response = get('https://maps.googleapis.com/maps/api/geocode/json',
