@@ -15,6 +15,7 @@
 
         <section>
             <div id="dialogue_area"></div>
+            <div id="map"></div>
             <form method="post" action="" id="query_field">
                 {{ form.hidden_tag() }}
                 <p>
@@ -30,6 +31,7 @@
         </footer>
 
         <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script>
         <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     </body>
 </html>
