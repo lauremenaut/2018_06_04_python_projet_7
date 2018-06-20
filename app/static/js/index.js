@@ -23,32 +23,49 @@ function locate(query, dialogue_area) {
         // Retrait de l'animation
         $('.loading').remove();
 
-        // Affichage de l'adresse
-        address = response['localisation'][0];
-        $(dialogue_area).append('GrandPy : Hum ... oh oui, je me souviens ! Tu trouveras ça au ' + address + '.<br><br>');
+        error = response['localisation'][0];
+        message = response['localisation'][1];
 
-        // Insertion de la carte
-        lat = response['localisation'][1];
-        lng = response['localisation'][2];
-        initMap(lat, lng);
+        if (error) {
+            $(dialogue_area).append(message + '<br>');
+            $(dialogue_area).scrollTop(100000);
+        } else {
 
-        // Affichage de l'anecdote
-        summary = response['localisation'][3];
-        $(dialogue_area).append('GrandPy : En parlant de ça, j\'avais une petite chose à te raconter ... ' + summary);
-        $(dialogue_area).append('<br><br>GrandPy : As-tu autre chose à me demander ?<br>');
+            // Affichage de l'adresse
+            address = response['localisation'][2];
+            $(dialogue_area).append(message + address + '.<br><br>');
 
-        // Récupérer la hauteur de l'élément 'dialogue_Area'
-        height = $(dialogue_area).height();
-        console.log('Heigth = ' + height)
+            // Insertion de la carte
+            lat = response['localisation'][3];
+            lng = response['localisation'][4];
+            initMap(lat, lng);
 
-        $(dialogue_area).scrollTop(100000);
-        // $(dialogue_area).scrollTop(height);
+            // Affichage de l'anecdote
+            summary = response['localisation'][5];
+            if (summary) {
+                $(dialogue_area).append('GrandPy : En parlant de ça, j\'avais une petite chose à te raconter ... ' + summary);
+            } else {
+                $(dialogue_area).append('GrandPy : Par contre, c\'est bien un des rares endroits au sujet duquel je n\'ai rien à raconter ;-) !');
+            }
+
+            $(dialogue_area).append('<br><br>GrandPy : As-tu autre chose à me demander ?<br>');
+
+            // Récupérer la hauteur de l'élément 'dialogue_Area'
+            height = $(dialogue_area).height();
+            // console.log('Heigth = ' + height)
+
+            $(dialogue_area).scrollTop(100000);
+            // $(dialogue_area).scrollTop(height);
+
+        }
 
     }).fail(function() {
         // Retrait de l'animation
         $('.loading').remove();
 
         $(dialogue_area).append('GrandPy : Oh, désolé ! J\'ai un problème d\'accès à ma mémoire ...');
+
+        $(dialogue_area).scrollTop(100000);
     });
 }
 
@@ -59,9 +76,11 @@ document.addEventListener("keypress", function(e) {
 
     if (e.key == "Enter") {
         // On affiche la saisie de l'utilisateur dans la zone de dialogue
-        var pElt = document.createElement("p");
-        pElt.textContent = 'Vous : ' + query;
-        $('#dialogue_area').append(pElt);
+        var divElt = document.createElement("div");
+        divElt.textContent = 'Vous : ' + query;
+        $('#dialogue_area').append('<br>');
+        $('#dialogue_area').append(divElt);
+        $('#dialogue_area').append('<br>');
 
         locate(
             query,
