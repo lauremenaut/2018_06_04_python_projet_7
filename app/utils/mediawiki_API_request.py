@@ -27,7 +27,8 @@ class MediaWikiApiRequest:
 
         """
         pageid = self.get_pageid(lat, lng)
-        self.summary = self.get_summary(pageid)
+        if pageid:
+            self.summary = self.get_summary(pageid)
 
     def get_pageid(self, lat, lng):
         """ Returns .
@@ -40,16 +41,25 @@ class MediaWikiApiRequest:
         parameters = {
             'action': 'query',
             'list': 'geosearch',
-            'gsradius': 5000,
+            'gsradius': 1000,
             'gscoord': lat_lng,
             'format': 'json'
             }
 
         response = get('https://fr.wikipedia.org/w/api.php',
                        params=parameters)
+        if response.status_code != 200:
+            print("Erreur {} : problème d'accès à l'API MediaWiki".format(response.status_code))
+
         data = response.json()
-        pageid = data['query']['geosearch'][0]['pageid']
-        return pageid
+
+        try:
+            pageid = data['query']['geosearch'][0]['pageid']
+            return pageid
+        except KeyError:
+            return None
+        except IndexError:
+            return None
 
 
     def get_summary(self, pageid):
