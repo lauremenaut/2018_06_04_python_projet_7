@@ -41,7 +41,7 @@ class MediaWikiApiRequest:
         parameters = {
             'action': 'query',
             'list': 'geosearch',
-            'gsradius': 1000,
+            'gsradius': 10000,
             'gscoord': lat_lng,
             'format': 'json'
             }
