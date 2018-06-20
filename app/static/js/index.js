@@ -51,7 +51,7 @@ function locate(query, dialogue_area) {
             $(dialogue_area).append('<br><br>GrandPy : As-tu autre chose à me demander ?<br>');
 
             // Récupérer la hauteur de l'élément 'dialogue_Area'
-            height = $(dialogue_area).height();
+            // height = $(dialogue_area).height();
             // console.log('Heigth = ' + height)
 
             $(dialogue_area).scrollTop(100000);
