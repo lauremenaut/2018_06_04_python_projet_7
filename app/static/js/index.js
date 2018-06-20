@@ -41,14 +41,17 @@ function locate(query, dialogue_area) {
             initMap(lat, lng);
 
             // Affichage de l'anecdote
-            summary = response['localisation'][5];
+            summary_message = response['localisation'][5];
+            summary = response['localisation'][6];
             if (summary) {
-                $(dialogue_area).append('GrandPy : En parlant de ça, j\'avais une petite chose à te raconter ... ' + summary);
+                $(dialogue_area).append(summary_message + summary);
             } else {
                 $(dialogue_area).append('GrandPy : Par contre, c\'est bien un des rares endroits au sujet duquel je n\'ai rien à raconter ;-) !');
             }
 
-            $(dialogue_area).append('<br><br>GrandPy : As-tu autre chose à me demander ?<br>');
+            end_message = response['localisation'][7];
+
+            $(dialogue_area).append('<br><br>' + end_message + '<br>');
 
             // Récupérer la hauteur de l'élément 'dialogue_Area'
             // height = $(dialogue_area).height();
