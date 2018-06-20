@@ -5,7 +5,7 @@ import random
 from app.utils.parser import Parser
 from app.utils.gmaps_API_request import GmapsApiRequest
 from app.utils.mediawiki_API_request import MediaWikiApiRequest
-from app.utils.messages import success_messages, failure_messages
+from app.utils.messages import success_messages, summary_messages, end_messages, failure_messages
 
 
 def locate(query):
@@ -30,8 +30,19 @@ def locate(query):
 
     mediawiki_api_request = MediaWikiApiRequest(lat, lng)
     try:
+        summary_message = random.choice(summary_messages)
         summary = mediawiki_api_request.summary
     except AttributeError:
+        summary_message = None
         summary = None
 
-    return error, message, address, lat, lng, summary
+    end_message = random.choice(end_messages)
+
+    return (error,
+            message,
+            address,
+            lat,
+            lng,
+            summary_message,
+            summary,
+            end_message)
