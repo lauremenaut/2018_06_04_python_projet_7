@@ -1,21 +1,21 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-from appl import App
+from app.parser import Parser  # Indiquer le bon chemin
 import builtins
 
 
-class TestApp:
-    app = App()
+class TestParser:
+    parser = Parser()
 
-    def test_get_user_query(self, monkeypatch):
+    def test_lower_user_query(self, monkeypatch):
 
         def mock_input(arg):
             return "Où se trouve la Tour Eiffel ?"
 
         monkeypatch.setattr(builtins, "input", mock_input)
 
-        user_query = self.app.get_user_query()
+        user_query = self.app.lower_user_query()
         assert user_query == "où se trouve la tour eiffel ?"
 
     def test_cut_into_sentences(self):
