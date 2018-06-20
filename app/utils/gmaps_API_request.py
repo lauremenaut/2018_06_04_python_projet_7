@@ -30,9 +30,11 @@ class GmapsApiRequest:
 
         """
         position_info = self.get_position_info(query)
-        self.address = position_info['formatted_address']
-        self.lat = position_info['geometry']['location']['lat']
-        self.lng = position_info['geometry']['location']['lng']
+
+        if position_info:
+            self.address = position_info['formatted_address']
+            self.lat = position_info['geometry']['location']['lat']
+            self.lng = position_info['geometry']['location']['lng']
 
     def get_position_info(self, query):
         """ Returns .
@@ -47,11 +49,16 @@ class GmapsApiRequest:
 
         response = get('https://maps.googleapis.com/maps/api/geocode/json',
                        params=parameters)
-        data = response.json()
-        position_info = data['results'][0]
         if response.status_code != 200:
-            return "Erreur : le service de localisation a échoué"
-        return position_info
+            print("Erreur {} : le service de localisation a échoué".format(response.status_code))
+
+        data = response.json()
+
+        try:
+            position_info = data['results'][0]
+            return position_info
+        except IndexError:
+            return None
 
 
 def main():
