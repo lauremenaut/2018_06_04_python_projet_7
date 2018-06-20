@@ -1,49 +1,37 @@
 #! /usr/bin/env python3
 # coding: utf-8
+import random
 
 from app.utils.parser import Parser
 from app.utils.gmaps_API_request import GmapsApiRequest
 from app.utils.mediawiki_API_request import MediaWikiApiRequest
-
-#  Vérifier les codes : if r.status_code != 200:
-#                           return _('Echec de service de localisation')
-#  cf. MégaTuto Flask - AJAX
+from app.utils.messages import success_messages, failure_messages
 
 
 def locate(query):
-    # try:
-    #     parser = Parser(query)
-    # except IndexError:
-    #     pass
+
+    error = False
+    message = random.choice(success_messages)
 
     parser = Parser(query)
-    if parser.query == "":
-        return None
-
-    # try:
-    #     gmaps_api_request = GmapsApiRequest(parser.query)
-    #     address = gmaps_api_request.address
-    #     lat = gmaps_api_request.lat
-    #     lng = gmaps_api_request.lng
-    # except IndexError:
-    #     pass
 
     gmaps_api_request = GmapsApiRequest(parser.query)
-    address = gmaps_api_request.address
-    lat = gmaps_api_request.lat
-    lng = gmaps_api_request.lng
+    try:
+        address = gmaps_api_request.address
+        lat = gmaps_api_request.lat
+        lng = gmaps_api_request.lng
 
-    # try:
-    #     mediawiki_wrapper = MediaWikiWrapper(lat, lng)
-    #     summary = mediawiki_wrapper.summary
-    #     return address, lat, lng, summary
+    except AttributeError:
+        error = True
+        message = random.choice(failure_messages)
+        address = None
+        lat = None
+        lng = None
 
-    # except:  # Je ne connais pas le type d'erreur levée ...
-    #     pass
-
-    # mediawiki_wrapper = MediaWikiWrapper(lat, lng)
     mediawiki_api_request = MediaWikiApiRequest(lat, lng)
-    # summary = mediawiki_wrapper.summary
-    summary = mediawiki_api_request.summary
-    return address, lat, lng, summary
-    # return address, lat, lng, summary, message, error(0 ou 1)
+    try:
+        summary = mediawiki_api_request.summary
+    except AttributeError:
+        summary = None
+
+    return error, message, address, lat, lng, summary
