@@ -8,6 +8,7 @@ Google Maps Geocoding API.
 
 """
 
+import logging
 from requests import get
 
 from app import appl
@@ -50,14 +51,15 @@ class GmapsApiRequest:
         response = get('https://maps.googleapis.com/maps/api/geocode/json',
                        params=parameters)
         if response.status_code != 200:
-            print("Erreur {} : le service de localisation a échoué".format(response.status_code))
+            logging.error(" Localisation failed ... Status code '{}'".format(response.status_code))
 
         data = response.json()
 
         try:
             position_info = data['results'][0]
             return position_info
-        except IndexError:
+        except IndexError as e:
+            logging.warning(" GoogleMAps didn't find any matching place ... Error : '{}'".format(e))
             return None
 
 
