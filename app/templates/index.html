@@ -3,15 +3,16 @@
     <head>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-        <title>GrandPy Bot vous répond</title>
+        <title>GrandPy Bot est là</title>
     </head>
     <body>
         <header>
             <img src="{{ url_for('static', filename='img/grandpa-bot-600x600-mini.jpg') }}" alt="GrandPy Bot" class="grandpa_bot" />
             <br />
-            <h1>Demandez ... GrandPy Bot vous répond !</h1>
+            <h1>Besoin d'une adresse ? GrandPy Bot est là pour vous !</h1>
             <br />
             <hr/>
+            <h3>Certains disent même que chaque lieu lui rappelle une histoire ...</h1>
         </header>
 
         <section>
@@ -21,14 +22,14 @@
                 {{ form.hidden_tag() }}
                 <p>
                     {{ form.query.label }}<br>
-                    {{ form.query(id="query", cols=100, rows=2, maxlength=250, placeholder="Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?") }}
+                    {{ form.query(id="query", cols=150, rows=2, maxlength=250, placeholder="Salut GrandPy ! Est-ce que tu sais à quelle adresse se trouve la Tour Eiffel ?", autofocus=true) }}
                 </p>
             </form>
         </section>
 
         <footer>
             <h4>Laure MENAUT</h4>
-            <a href="https://github.com/lauremenaut/2018_06_04_python_projet_7">Voir le projet sur GitHub</a>
+            <a href="https://github.com/lauremenaut/2018_06_04_python_projet_7">Voir le projet sur GitHub</a><br><br>
         </footer>
 
         <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
