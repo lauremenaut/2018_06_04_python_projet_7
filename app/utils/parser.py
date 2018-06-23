@@ -12,10 +12,13 @@ Salut vieux robot, quelle est l'adresse du cinéma le plus proche ?
 Comment aller à l'hôpital quand on habite à Laval ?
 """
 
+import logging
 import re
 
 from app.utils.stop_words import stop_words
 from app.utils.question_words import question_words
+
+logging.basicConfig(filename="log.log", level=logging.DEBUG, format='%(asctime)s -- %(name)s -- %(levelname)s -- %(message)s')
 
 
 class Parser:
@@ -41,9 +44,15 @@ class Parser:
             chosen_sentence = self.choose_sentence(sentences)
             words = self.cut_chosen_sentence(chosen_sentence)
             filtered_words = self.filter_words(words)
+            # logging.debug("{} : Here are relevant words selected by parser : {}".format(filtered_words))
+
+            # if filtered_words == []:
+            #     raise Warning("Parser didn't find any relevant word ...")
             return filtered_words
-        except IndexError:
-            return "\nDis-moi ça plus clairement s'il te plait !"
+        except:
+            pass
+        # except Warning as e:
+        #     print("Error : '{}'".format(e))
 
     def lower_user_query(self, user_query):
         user_query_lower = user_query.lower()
