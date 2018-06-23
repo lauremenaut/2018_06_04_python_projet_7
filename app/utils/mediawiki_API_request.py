@@ -6,6 +6,7 @@
 MediaWikiApiRequest class retrieves data from MediaWiki API.
 
 """
+import logging
 
 from requests import get
 
@@ -56,9 +57,11 @@ class MediaWikiApiRequest:
         try:
             pageid = data['query']['geosearch'][0]['pageid']
             return pageid
-        except KeyError:
+        except KeyError as e:
+            logging.warning(" MediaWiki didn't find any matching article ... Error : '{}'".format(e))
             return None
-        except IndexError:
+        except IndexError as e:
+            logging.warning(" MediaWiki didn't find any matching article ... Error : '{}'".format(e))
             return None
 
 
