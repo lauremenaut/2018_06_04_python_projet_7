@@ -46,7 +46,7 @@ function locate(query, dialogue_area) {
             if (summary) {
                 $(dialogue_area).append(summary_message + summary);
             } else {
-                $(dialogue_area).append('GrandPy : Par contre, c\'est bien un des rares endroits au sujet duquel je n\'ai rien à raconter ;-) !');
+                $(dialogue_area).append(summary_message);
             }
 
             end_message = response['localisation'][7];
