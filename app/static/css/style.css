@@ -1,3 +1,8 @@
+body
+{
+    border: 3px solid black;
+}
+
 header
 {
     background-color: black;
@@ -14,33 +19,26 @@ footer
 .grandpa_bot
 {
     float: right;
-    border: 3px solid black;
 }
 
 #dialogue_area
 {
     height: 300px;
-    border: 3px solid black;
     overflow: auto;
-    width: 97%;
     padding: 20px 20px 20px 20px;
+}
+
+#map
+{
+    height: 400px;
 }
 
 #query_field
 {
     height: 100px;
-    border: 3px solid black;
-    width: 97%;
     padding: 20px 20px 20px 20px;
     /*font-size: 14px;*/
     /*font-family: Helvetica, Arial, sans-serif;*/
-}
-
-#map
-{
-    width: 99.7%;
-    height: 400px;
-    border: 3px solid black;
 }
 
 
