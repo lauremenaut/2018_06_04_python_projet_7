@@ -2,7 +2,7 @@ success_messages = [
     "GrandPy : Hum ... oh oui, je me souviens ! Tu trouveras ça au ",
     "GrandPy : Bien sûr, voici l'adresse : ",
     "GrandPy : Dans mes souvenirs, c'est au ",
-    "GrandPy : Aussitôt demandé, aussitôt renseigné ! Ce que tu cherches est au ",
+    "GrandPy : Aussitôt demandé, aussitôt trouvé ! Ce que tu cherches est au ",
     "GrandPy : Il me semble que ça se trouve au "
     ]
 summary_messages = [
@@ -11,6 +11,13 @@ summary_messages = [
     "GrandPy : D'ailleurs, cela me rappelle quelque chose ... ",
     "GrandPy : Au fait, cela me rappelle un souvenir ! ",
     "GrandPy : Maintenant que tu m'y fais penser ... "
+    ]
+no_summary_messages = [
+    "GrandPy : Par contre, c\'est bien un des rares endroits au sujet duquel je n\'ai rien à raconter ;-) !",
+    "GrandPy : Curieusement, ma mémoire me fait défaut, je n'ai pas d'anecdote à raconter à ce sujet ... ",
+    "GrandPy : Mais cela fait trop longtemps que je n'y suis pas allé ... j'ai oublié toutes mes petites histoires à ce sujet ! ",
+    "GrandPy : Dommage, je n'ai pas d'anecdote concernant cet endroit à raconter ...",
+    "GrandPy : Pas de chance, aucune histoire ne me revient en tête à ce sujet :-/"
     ]
 end_messages = [
     "GrandPy : As-tu autre chose à me demander ?",
