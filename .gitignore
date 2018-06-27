@@ -5,3 +5,6 @@ __pycache__/
 app.pyc
 config.py
 .pytest_cache/
+htmlcov/
+.coverage
+log.log
