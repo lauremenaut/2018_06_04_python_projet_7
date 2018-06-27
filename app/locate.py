@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
 # coding: utf-8
+
 import random
 
 from app.utils.parser import Parser
 from app.utils.gmaps_API_request import GmapsApiRequest
 from app.utils.mediawiki_API_request import MediaWikiApiRequest
 from app.utils.messages import success_messages, summary_messages, no_summary_messages, end_messages, failure_messages
-
 
 def locate(query):
 
@@ -38,11 +38,4 @@ def locate(query):
 
     end_message = random.choice(end_messages)
 
-    return (error,
-            message,
-            address,
-            lat,
-            lng,
-            summary_message,
-            summary,
-            end_message)
+    return error, message, address, lat, lng, summary_message, summary, end_message
