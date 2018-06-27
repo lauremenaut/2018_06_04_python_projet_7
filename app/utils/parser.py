@@ -17,6 +17,8 @@ import re
 
 from app.utils.stop_words import stop_words
 from app.utils.question_words import question_words
+# from stop_words import stop_words
+# from question_words import question_words
 
 logging.basicConfig(filename="log.log", level=logging.DEBUG, format='%(asctime)s -- %(name)s -- %(levelname)s -- %(message)s')
 
@@ -39,8 +41,7 @@ class Parser:
 
     def parser(self, user_query):
         try:
-            query = self.lower_user_query(user_query)
-            sentences = self.cut_into_sentences(query)
+            sentences = self.cut_into_sentences(user_query)
             chosen_sentence = self.choose_sentence(sentences)
             words = self.cut_chosen_sentence(chosen_sentence)
             filtered_words = self.filter_words(words)
@@ -54,12 +55,8 @@ class Parser:
         # except Warning as e:
         #     print("Error : '{}'".format(e))
 
-    def lower_user_query(self, user_query):
-        user_query_lower = user_query.lower()
-        return user_query_lower
-
     def cut_into_sentences(self, user_query):
-        cut_sentences = re.split('[!,:;.]', user_query)
+        cut_sentences = re.split('[!,:;.]', user_query.lower())
         return cut_sentences
 
     def choose_sentence(self, sentences):
