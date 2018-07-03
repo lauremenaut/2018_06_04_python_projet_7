@@ -1,10 +1,9 @@
 $('#dialogue_area').append('GrandPy : Bonjour mon petit, as-tu une question pour moi ?<br>');
 
-
-function initMap(lat, lng) {
+function initMap(lat, lng, zoom) {
         var place = {lat: lat, lng: lng};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 17,
+          zoom: zoom,
           center: place
         });
         var marker = new google.maps.Marker({
@@ -12,6 +11,8 @@ function initMap(lat, lng) {
           map: map
         });
       }
+
+initMap(0, 0, 2);
 
 function locate(query, dialogue_area) {
     // Ajout de l'animation pendant que "GrandPy réfléchit"
@@ -38,7 +39,7 @@ function locate(query, dialogue_area) {
             // Insertion de la carte
             lat = response['localisation'][3];
             lng = response['localisation'][4];
-            initMap(lat, lng);
+            initMap(lat, lng, 17);
 
             // Affichage de l'anecdote
             summary_message = response['localisation'][5];
