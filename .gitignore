@@ -3,7 +3,6 @@ env
 .cache/
 __pycache__/
 app.pyc
-config.py
 .pytest_cache/
 htmlcov/
 .coverage
