@@ -28,6 +28,7 @@ class MediaWikiApiRequest:
 
         """
         pageid = self.get_pageid(lat, lng)
+        print(lat, lng)
         if pageid:
             self.summary = self.get_summary(pageid)
 
@@ -58,7 +59,7 @@ class MediaWikiApiRequest:
             pageid = data['query']['geosearch'][0]['pageid']
             return pageid
         except KeyError as e:
-            logging.warning(" MediaWiki didn't find any matching article ... Error : '{}'".format(e))
+            logging.warning(" MediaWiki didn't find any matching article ... KeyError : '{}'".format(e))
             return None
         except IndexError as e:
             logging.warning(" MediaWiki didn't find any matching article ... Error : '{}'".format(e))
