@@ -31,6 +31,8 @@ footer
 #map
 {
     height: 400px;
+    width: 98%;
+    margin: auto;
 }
 
 #query_field
@@ -43,6 +45,10 @@ footer
 {
     font-size: 14px;
     font-family: times;
+    height: 30px;
+    width: 100%;
+    margin-top: 6px;
+    padding-top: 4px;
 }
 
 @media all and (max-width: 1024px)
