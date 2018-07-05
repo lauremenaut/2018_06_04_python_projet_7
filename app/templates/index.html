@@ -22,7 +22,7 @@
                 {{ form.hidden_tag() }}
                 <p>
                     {{ form.query.label }}<br>
-                    {{ form.query(id="query", cols=150, rows=1, maxlength=150, placeholder="Salut GrandPy ! Est-ce que tu sais à quelle adresse se trouve la Tour Eiffel ?", autofocus=true) }}
+                    {{ form.query(id="query", cols=200, rows=1, maxlength=200, placeholder="Salut GrandPy ! Est-ce que tu sais à quelle adresse se trouve la Tour Eiffel ?", autofocus=true) }}
                 </p>
             </form>
         </section>
@@ -33,7 +33,7 @@
         </footer>
 
         <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script>
-        <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     </body>
 </html>
