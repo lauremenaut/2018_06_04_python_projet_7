@@ -54,20 +54,14 @@ function locate(query, dialogue_area) {
 
             $(dialogue_area).append('<br><br>' + end_message + '<br>');
 
-            // Récupérer la hauteur de l'élément 'dialogue_Area'
-            // height = $(dialogue_area).height();
-            // console.log('Heigth = ' + height)
-
             $(dialogue_area).scrollTop(100000);
-            // $(dialogue_area).scrollTop(height);
-
         }
 
     }).fail(function() {
         // Retrait de l'animation
         $('.loading').remove();
 
-        $(dialogue_area).append('GrandPy : Oh, désolé ! J\'ai un problème d\'accès à ma mémoire ...');
+        $(dialogue_area).append('GrandPy : Oh, désolé ! J\'ai un problème d\'accès à ma mémoire ...<br>');
 
         $(dialogue_area).scrollTop(100000);
     });
