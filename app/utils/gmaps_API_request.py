@@ -9,9 +9,11 @@ Google Maps Geocoding API.
 """
 
 import logging
+
 from requests import get
 
 from app import appl
+from app.exceptions import GmapsApiError
 
 
 class GmapsApiRequest:
@@ -50,17 +52,24 @@ class GmapsApiRequest:
 
         response = get('https://maps.googleapis.com/maps/api/geocode/json',
                        params=parameters)
-        if response.status_code != 200:
-            logging.error(" Localisation failed ... Status code '{}'".format(response.status_code))
+        # if response.status_code != 200:
+        #     logging.error(" Localisation failed ... Status code '{}'".format(response.status_code))
 
         data = response.json()
 
         try:
             position_info = data['results'][0]
             return position_info
+
+        # except IndexError as e:
+        #     logging.warning("IndexError : {}".format(e))
+        #     raise GmapsApiError("GoogleMaps didn't find any matching place ...")
+
+        # except GmapsApiError as e:
+        #     logging.warning("GmapsApiError : {}".format(e))
+
         except IndexError as e:
-            logging.warning(" GoogleMAps didn't find any matching place ... Error : '{}'".format(e))
-            return None
+            logging.warning("IndexError : {}".format(e))
 
 
 def main():

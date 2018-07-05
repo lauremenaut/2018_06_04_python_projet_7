@@ -28,7 +28,6 @@ class MediaWikiApiRequest:
 
         """
         pageid = self.get_pageid(lat, lng)
-        print(lat, lng)
         if pageid:
             self.summary = self.get_summary(pageid)
 
@@ -50,8 +49,8 @@ class MediaWikiApiRequest:
 
         response = get('https://fr.wikipedia.org/w/api.php',
                        params=parameters)
-        if response.status_code != 200:
-            print("Erreur {} : problème d'accès à l'API MediaWiki".format(response.status_code))
+        # if response.status_code != 200:
+        #     print("Erreur {} : problème d'accès à l'API MediaWiki".format(response.status_code))
 
         data = response.json()
 
@@ -59,12 +58,9 @@ class MediaWikiApiRequest:
             pageid = data['query']['geosearch'][0]['pageid']
             return pageid
         except KeyError as e:
-            logging.warning(" MediaWiki didn't find any matching article ... KeyError : '{}'".format(e))
-            return None
+            logging.warning(" MediaWiki didn't find any matching article ... KeyError : {}".format(e))
         except IndexError as e:
-            logging.warning(" MediaWiki didn't find any matching article ... Error : '{}'".format(e))
-            return None
-
+            logging.warning(" MediaWiki didn't find any matching article ... IndexError : {}".format(e))
 
     def get_summary(self, pageid):
         """ Returns .

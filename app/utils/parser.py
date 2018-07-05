@@ -12,13 +12,10 @@ Salut vieux robot, quelle est l'adresse du cinéma le plus proche ?
 Comment aller à l'hôpital quand on habite à Laval ?
 """
 
-# import logging
 import re
 
 from app.utils.stop_words import stop_words
 from app.utils.question_words import question_words
-# from stop_words import stop_words
-# from question_words import question_words
 
 
 class Parser:
@@ -38,21 +35,11 @@ class Parser:
         self.query = self.parser(user_query)
 
     def parser(self, user_query):
-        try:
-            sentences = self.cut_into_sentences(user_query)
-            chosen_sentence = self.choose_sentence(sentences)
-            words = self.cut_chosen_sentence(chosen_sentence)
-            filtered_words = self.filter_words(words)
-            # logging.debug("{} : Here are relevant words selected by parser : {}".format(filtered_words))
-
-            # if filtered_words == []:
-            #     raise Warning("Parser didn't find any relevant word ...")
-            print(filtered_words)
-            return filtered_words
-        except:
-            pass
-        # except Warning as e:
-        #     print("Error : '{}'".format(e))
+        sentences = self.cut_into_sentences(user_query)
+        chosen_sentence = self.choose_sentence(sentences)
+        words = self.cut_chosen_sentence(chosen_sentence)
+        filtered_words = self.filter_words(words)
+        return filtered_words
 
     def cut_into_sentences(self, user_query):
         cut_sentences = re.split('[!,:;.]', user_query.lower())
