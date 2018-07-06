@@ -1,6 +1,4 @@
-$('#dialogue_area').append('GrandPy : Bonjour mon petit, as-tu une question pour moi ?<br>');
-
-function initMap(lat, lng, zoom) {
+function displayMap(lat, lng, zoom) {
         var place = {lat: lat, lng: lng};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: zoom,
@@ -12,7 +10,9 @@ function initMap(lat, lng, zoom) {
         });
       }
 
-initMap(0, 0, 2);
+function initMap() {
+        displayMap(0, 0, 2);
+      }
 
 function locate(query, dialogue_area) {
     // Ajout de l'animation pendant que "GrandPy réfléchit"
@@ -39,7 +39,7 @@ function locate(query, dialogue_area) {
             // Insertion de la carte
             lat = response['localisation'][3];
             lng = response['localisation'][4];
-            initMap(lat, lng, 17);
+            displayMap(lat, lng, 17);
 
             // Affichage de l'anecdote
             summary_message = response['localisation'][5];
@@ -67,24 +67,26 @@ function locate(query, dialogue_area) {
     });
 }
 
-document.addEventListener("keypress", function(e) {
+$(function() {
+    document.addEventListener("keypress", function(e) {
+        var form = document.querySelector("form"); // Champ de saisie
+        var query = form.elements[1].value; // Contenu du champ de saisie (= saisie de l'utilisateur)
 
-    var form = document.querySelector("form"); // Champ de saisie
-    var query = form.elements[1].value; // Contenu du champ de saisie (= saisie de l'utilisateur)
+        if (e.key == "Enter") {
+            // On affiche la saisie de l'utilisateur dans la zone de dialogue
+            var divElt = document.createElement("div");
+            divElt.textContent = 'Vous : ' + query;
+            $('#dialogue_area').append('<br>');
+            $('#dialogue_area').append(divElt);
+            $('#dialogue_area').append('<br>');
 
-    if (e.key == "Enter") {
-        // On affiche la saisie de l'utilisateur dans la zone de dialogue
-        var divElt = document.createElement("div");
-        divElt.textContent = 'Vous : ' + query;
-        $('#dialogue_area').append('<br>');
-        $('#dialogue_area').append(divElt);
-        $('#dialogue_area').append('<br>');
+            locate(
+                query,
+                '#dialogue_area'
+                );
 
-        locate(
-            query,
-            '#dialogue_area'
-            );
-
-        form.elements[1].value = "";  // Est-ce une bonne façon de vider le champ de saisie ??
-    };
+            form.elements[1].value = "";
+        };
+    });
 });
+
