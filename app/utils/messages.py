@@ -1,11 +1,9 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-"""
+""" Set messages GrandPy randomly uses to answer the user query """
 
-"""
-
-success_messages = [
+address_success_messages = [
     "GrandPy : Hum ... oh oui, je me souviens ! Tu trouveras ça au ",
     "GrandPy : Bien sûr, voici l'adresse : ",
     "GrandPy : Dans mes souvenirs, c'est au ",
@@ -29,7 +27,7 @@ address_failure_messages = [
     "GrandPy : C'est que je me fais vieux ... impossible de me rappeler de cette adresse :-/"
     ]
 
-summary_messages = [
+summary_success_messages = [
     "GrandPy : En parlant de ça, j'avais une petite chose à te raconter ... ",
     "GrandPy : A ce sujet, savais-tu cela ? ",
     "GrandPy : D'ailleurs, cela me rappelle quelque chose ... ",
@@ -45,7 +43,7 @@ summary_failure_messages = [
     "GrandPy : Pas de chance, aucune histoire ne me revient en tête à ce sujet :-/"
     ]
 
-end_messages = [
+next_question_messages = [
     "GrandPy : As-tu autre chose à me demander ?",
     "GrandPy : Puis-je encore quelque chose pour toi ?",
     "GrandPy : Encore une question ?",
