@@ -1,9 +1,7 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-"""
-
-"""
+""" Set customised exceptions """
 
 
 class ParserError(Exception):
