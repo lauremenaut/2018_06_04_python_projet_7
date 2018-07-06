@@ -5,24 +5,21 @@ from app.utils.parser import Parser
 
 
 class TestParser:
-    parser = Parser("Salut vieux robot, quelle est l'adresse du cinéma le plus proche ?")
 
-    def test_cut_into_sentences(self):
-        sentences = self.parser.cut_into_sentences("salut vieux robot, quelle est l'adresse du cinéma le plus proche ?")
-        assert sentences == ["salut vieux robot", " quelle est l'adresse du cinéma le plus proche ?"]
+    # Commented tests as they became unuseful after public methods changed into private ones.
 
-    def test_choose_sentence(self):
-        chosen_sentence = self.parser.choose_sentence(["salut vieux robot", "quelle est l'adresse du cinéma le plus proche ?"])
-        assert chosen_sentence == " quelle est l'adresse du cinéma le plus proche ?"
+    # def test_cut_into_sentences(self):
+    #     sentences = self.parser._cut_into_sentences("Salut GrandPy ! Est-ce que tu connais, par hasard, l'adresse du centre équestre Cantegril ?")
+    #     assert sentences == ["Salut GrandPy ", " Est-ce que tu connais", " par hasard", " l'adresse du centre équestre Cantegril ?"]
 
-    def test_cut_chosen_sentence(self):
-        words = self.parser.cut_chosen_sentence("quelle est l'adresse du cinéma le plus proche ?")
-        assert words == ['quelle', 'est', 'l', 'adresse', 'du', 'cinéma', 'le', 'plus', 'proche', '?']
+    # def test_choose_sentence(self):
+    #     chosen_sentence = self.parser._choose_sentence(["Salut GrandPy ", " Est-ce que tu connais", " par hasard", " l'adresse du centre équestre Cantegril ?"])
+    #     assert chosen_sentence == "Est-ce que tu connais l'adresse du centre équestre Cantegril ? "
 
-    def test_filter_words(self):
-        filtered_words = self.parser.filter_words(['quelle', 'est', 'l', 'adresse', 'du', 'cinéma', 'le', 'plus', 'proche', '?'])
-        assert filtered_words == ["cinéma"]
+    # def test_filter_words(self):
+    #     relevant_words = self.parser._filter_words(["Salut", "GrandPy", "Est-ce", "que", "tu", "connais", "l", "adresse", "du", "centre", "équestre", "Cantegril", "?"])
+    #     assert relevant_words == ["centre", "équestre", "Cantegril"]
 
-    def test_parser(self):
-        filtered_words = self.parser.parser("Salut vieux robot, quelle est l'adresse du cinéma le plus proche ?")
-        assert filtered_words == ["cinéma"]
+    def test_parse(self):
+        parser = Parser("Salut GrandPy ! Est-ce que tu connais, par hasard, l'adresse du centre équestre Cantegril ?")
+        assert parser.query_relevant_words == ["centre", "équestre", "Cantegril"]
