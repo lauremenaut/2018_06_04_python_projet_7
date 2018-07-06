@@ -1,15 +1,10 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-"""
-Exemples de questions posées par l'utilisateur :
-Salut GrandPy ! Est-ce que tu connais, par hasard, l'adresse d'OpenClassrooms ?
-Bonjour GrandPy, comment ça va ? J'aimerais savoir comment aller au Jardin Botanique de Montréal.
-J'aimerais aller voir la Tour Eiffel, peux-tu m'aider ?
-Quelle est l'adresse de la piscine de Foix ?
-Où se trouve l'Arc de triomphe à Paris ?
-Salut vieux robot, quelle est l'adresse du cinéma le plus proche ?
-Comment aller à l'hôpital quand on habite à Laval ?
+""" Set Parser class.
+
+Parser class allows extracting relevant words from query submitted by user.
+
 """
 
 import re
@@ -19,80 +14,87 @@ from app.utils.question_words import question_words
 
 
 class Parser:
-    """ Sets App class.
 
-    Consists of x (private) methods :
+    """ Set Parser class.
+
+    Consists of 5 private methods :
         - __init__()
-        -
+        - _parse()
+        - _cut_into_sentences()
+        - _choose_sentence()
+        - _filter_words()
+
     """
 
     def __init__(self, user_query):
-        """ App constructor.
+        """ Parser constructor.
 
-        Manages ...
+        Receive a string containing user query.
+        Set 'self.query_relevant_words' attribute calling _parse() method.
 
         """
-        self.query = self.parser(user_query)
+        self.query_relevant_words = self._parse(user_query)
 
-    def parser(self, user_query):
-        sentences = self.cut_into_sentences(user_query)
-        chosen_sentence = self.choose_sentence(sentences)
-        words = self.cut_chosen_sentence(chosen_sentence)
-        filtered_words = self.filter_words(words)
-        return filtered_words
+    def _parse(self, user_query):
+        """ Set _parse() method.
 
-    def cut_into_sentences(self, user_query):
-        cut_sentences = re.split('[!,:;.]', user_query.lower())
+        Receive the string containing user query from constructor.
+        Return a list of relevant words.
+
+        """
+        sentences = self._cut_into_sentences(user_query)
+        chosen_sentence = self._choose_sentence(sentences)
+        words = re.split("[ ']", chosen_sentence)
+        relevant_words = self._filter_words(words)
+        return relevant_words
+
+    def _cut_into_sentences(self, user_query):
+        """ Set _cut_into_sentences() method.
+
+        Receive the string containing user query.
+        Return a list containing sentences from user query cut according punctuation, except '?'.
+
+        """
+        cut_sentences = re.split('[!,:;.]', user_query)
         return cut_sentences
 
-    def choose_sentence(self, sentences):
-#  On fait une liste des phrases contenant au moins un mot contenu dans le fichier question_words.
+    def _choose_sentence(self, sentences):
+        """ Set _choose_sentence() method.
+
+        Receive a list of sentences.
+        Return a string containing choosen sentence according 'question words'.
+
+        """
         chosen_sentence = []
         for sentence in sentences:
-
-#  On découpe chaque phrase en mots:
-            words_of_sentence = self.cut_chosen_sentence(sentence)
-
-#  Si un mot de la phrase est contenu dans le fichier question_words, alors la phrase est retenue
+            # Each sentence is cut into a list of words
+            words_of_sentence = re.split("[ ']", sentence)
+            # If at least one word is contained in 'question_words' list, then
+            # the sentence is added to 'chosen_sentence' list
             for word in words_of_sentence:
-                if word in question_words:
-                    chosen_sentence.append(sentence)
+                if word in question_words:  # or re.match(r"^[A-Z]", word[0]):  # Add comment for re.match if kept
+                    chosen_sentence.append(sentence.strip())
                     break
-
-#  Si aucune phrase ne contient de mot contenu dans le fichier question_words, alors, on garde toutes les phrases.
+        # If no sentence was previously added to 'chosen_sentence', then all sentences are selected
         if chosen_sentence == []:
             for sentence in sentences:
-                chosen_sentence.append(sentence)
-
+                chosen_sentence.append(sentence.strip())
+        # All sentences are concatenated into one string
         returned_sentence = ""
         for sentence in chosen_sentence:
-            returned_sentence += " " + sentence
-
+            returned_sentence += sentence + " "
         return returned_sentence
 
-    def cut_chosen_sentence(self, chosen_sentence):
-        split_words = []
-#  On découpe la phrase en mots (à chaque espace)
-        words = chosen_sentence.split()
-#  On découpe les "mots" qui sont en fait des groupes de mots contenant une apostrophe
+    def _filter_words(self, words):
+        """ Set _filter_words() method.
+
+        Reveive a list of words.
+        Return a list of relevant words.
+
+        """
+        relevant_words = []
+        # Words that don't appear in 'stop_words' list are added to 'relevant_words' list
         for word in words:
-            apostrophe_split = word.split("'")
-            for apostrophe_word in apostrophe_split:
-                split_words.append(apostrophe_word)
-        return split_words
-
-    def filter_words(self, words):
-#  On fait une liste des mots qui ne sont pas contenus dans le fichier stop_words
-        filtered_words = []
-        for word in words:
-            if word not in stop_words:
-                filtered_words.append(word)
-        return filtered_words
-
-
-def main():
-    parser = Parser("Où se trouve la tour Eiffel ?")
-    print(parser.query)
-
-if __name__ == '__main__':
-    main()
+            if word.lower() not in stop_words:
+                relevant_words.append(word)
+        return relevant_words
