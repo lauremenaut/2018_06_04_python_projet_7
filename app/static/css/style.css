@@ -8,7 +8,7 @@ header
     background-color: black;
     color: white;
     text-align: center;
-    height: 185px;
+    height: 177px;
 }
 
 footer
@@ -18,7 +18,7 @@ footer
 
 .grandpa_bot
 {
-    float: right;
+    float: left;
 }
 
 #dialogue_area
