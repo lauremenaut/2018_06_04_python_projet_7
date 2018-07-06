@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
+""" Set Config class (inheriting from 'object') """
 
 import os
 
 
 class Config(object):
-    # SECRET_KEY = "]d{<Xh),pyrVD.QY8owh7rNmx0b"
-    # GOOGLE_MAPS_API_KEY = "AIzaSyD0CWiofMMeygd25DTranGk2XgJXjGsHfs"
+    """ Set private keys recovery """
     SECRET_KEY = os.environ.get('SECRET_KEY')
     GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
