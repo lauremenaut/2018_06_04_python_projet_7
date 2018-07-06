@@ -1,11 +1,12 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-""" Sets MediaWikiApiRequest class.
+""" Set MediaWikiApiRequest class.
 
 MediaWikiApiRequest class retrieves data from MediaWiki API.
 
 """
+
 import logging
 
 from requests import get
@@ -13,28 +14,32 @@ from requests import get
 
 class MediaWikiApiRequest:
 
-    """ Sets MediaWikiApiRequest class.
+    """ Set MediaWikiApiRequest class.
 
-    Consists of xxx (private) methods :
+    Consist of 3 private methods :
         - __init__()
-        - _get
+        - _get_page_id()
+        - _get_summary()
 
     """
 
     def __init__(self, lat, lng):
         """ MediaWikiApiRequest constructor.
 
-        xxx
+        Receive 2 floating numbers representing latitude & longitude.
+        Set self.summary attribute.
 
         """
-        pageid = self.get_pageid(lat, lng)
+        pageid = self._get_pageid(lat, lng)
         if pageid:
-            self.summary = self.get_summary(pageid)
+            self.summary = self._get_summary(pageid)
 
-    def get_pageid(self, lat, lng):
-        """ Returns .
+    def _get_pageid(self, lat, lng):
+        """ Set _get_pageid() method.
 
-        xxx
+        Receive 2 floating numbers from contructor.
+        Send request to MediaWiki API.
+        Return an integer corresponding to the page ID of the MediaWiki article referenced as being next to the searched position.
 
         """
         lat_lng = "|".join([str(lat), str(lng)])
@@ -62,10 +67,12 @@ class MediaWikiApiRequest:
         except IndexError as e:
             logging.warning(" MediaWiki didn't find any matching article ... IndexError : {}".format(e))
 
-    def get_summary(self, pageid):
-        """ Returns .
+    def _get_summary(self, pageid):
+        """ Set _get_summary() method.
 
-        xxx
+        Receive an integer representing page ID of MediaWiki.
+        Send request to MediaWiki API.
+        Return a string containing summary of MediaWiki article corresponding to page ID.
 
         """
 
@@ -83,12 +90,3 @@ class MediaWikiApiRequest:
         data = response.json()
         summary = data['query']['pages'][str(pageid)]['extract']
         return summary
-
-
-def main():
-    mediawiki_api_request = MediaWikiApiRequest(42.9600983, 1.609331)
-    summary = mediawiki_api_request.summary
-    print("Résumé : ", summary)
-
-if __name__ == '__main__':
-    main()
