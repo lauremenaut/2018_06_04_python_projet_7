@@ -4,6 +4,7 @@ env
 __pycache__/
 app.pyc
 .pytest_cache/
+app/__init__.pyc
 htmlcov/
 .coverage
 log.log
