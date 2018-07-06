@@ -1,10 +1,9 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-""" Sets GmapsApiRequest class.
+""" Set GmapsApiRequest class.
 
-GmapsApiRequest class retrieves data from
-Google Maps Geocoding API.
+GmapsApiRequest class retrieves data from Google Maps Geocoding API.
 
 """
 
@@ -18,31 +17,34 @@ from app.exceptions import GmapsApiError
 
 class GmapsApiRequest:
 
-    """ Sets GmapsApiRequest class.
+    """ Set GmapsApiRequest class.
 
-    Consists of xxx (private) methods :
+    Consist of 2 private methods :
         - __init__()
-        - _get
+        - _get_position_info()
 
     """
 
     def __init__(self, query):
         """ GmapsApiRequest constructor.
 
-        xxx
+        Receive a list of relevant words from user query.
+        Set self.address, self.lat and self.lng attributes.
 
         """
-        position_info = self.get_position_info(query)
+        position_info = self._get_position_info(query)
 
         if position_info:
             self.address = position_info['formatted_address']
             self.lat = position_info['geometry']['location']['lat']
             self.lng = position_info['geometry']['location']['lng']
 
-    def get_position_info(self, query):
-        """ Returns .
+    def _get_position_info(self, query):
+        """ Set _get_position_info() method.
 
-        xxx
+        Receive the list of relevant words from constructor.
+        Send request to Google Maps API.
+        Return 'position_info' dictionnary containing address, lat & lng.
 
         """
         parameters = {
@@ -70,13 +72,3 @@ class GmapsApiRequest:
 
         except IndexError as e:
             logging.warning("IndexError : {}".format(e))
-
-
-def main():
-    gmaps_api_request = GmapsApiRequest("piscine Foix")
-    print("Coordonnées GPS : ", gmaps_api_request.lat, gmaps_api_request.lng)
-    print("Adresse : ", gmaps_api_request.address)
-
-
-if __name__ == '__main__':
-    main()
