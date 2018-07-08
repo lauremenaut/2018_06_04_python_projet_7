@@ -3,19 +3,22 @@
 
 import requests
 
-from app.utils.mediawiki_API_request import MediaWikiApiRequest
+import app.utils.mediawiki_API_request as mediawiki
 
 
 class TestMediawikiApiRequest:
-    mediawiki_API_request = MediaWikiApiRequest(42.9600983, 1.609331)
+    mediawiki_API_request = mediawiki.MediaWikiApiRequest(42.9600983, 1.609331)
 
     def test_get_pageid(self, monkeypatch):
         results = 898403
 
+        # -tc- reprendre le mock comme dans test_gmaps_API_request.py.
+        # mockreturn doit prendre deux paramètres et retourner une instance
+        # d'une classe qui implémente une méthode json.
         def mockreturn(request):
             return results
 
-        monkeypatch.setattr(requests, 'get', mockreturn)
+        monkeypatch.setattr(mediawiki, 'get', mockreturn)
         assert self.mediawiki_API_request.get_pageid(42.9600983, 1.609331) == results
 
 
