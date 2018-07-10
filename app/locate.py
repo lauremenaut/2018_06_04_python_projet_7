@@ -40,6 +40,7 @@ def locate(query):
     summary = None
     next_question_message = random.choice(next_question_messages)
 
+    # -tc- l'utilisation de ParserError me semble bien ici
     try:
         parser = Parser(query)
         logging.debug("Here are relevant words selected by parser : {}".format(parser.query_relevant_words))
@@ -62,6 +63,7 @@ def locate(query):
         lng = gmaps_api_request.lng
         logging.debug("Here are latitude and longitude returned by GoogleMaps API : {}, {}".format(lat, lng))
 
+        # -tc- L'utilisation de GmapsApiError me semble bien. Quel problème rencontres-tu?
         if gmaps_api_request is None:
             raise GmapsApiError("GoogleMaps didn't find any matching place ...")
 

@@ -51,7 +51,7 @@ class GmapsApiRequest:
             'address': " ".join(query),
             'key': appl.config['GOOGLE_MAPS_API_KEY']
             }
-
+        
         response = get('https://maps.googleapis.com/maps/api/geocode/json',
                        params=parameters)
         # if response.status_code != 200:
@@ -63,10 +63,13 @@ class GmapsApiRequest:
             position_info = data['results'][0]
             return position_info
 
+        # -tc- C'est la bonne façon de lever une GmapsApiError. Parfait
         # except IndexError as e:
         #     logging.warning("IndexError : {}".format(e))
         #     raise GmapsApiError("GoogleMaps didn't find any matching place ...")
 
+        # -tc- Il ne sert à rien de capturer une GmapsApiError ici, cela ne marchera pas
+        # -tc- Il faut le faire le code appelant lorsqu'il appelle cette méthode.
         # except GmapsApiError as e:
         #     logging.warning("GmapsApiError : {}".format(e))
 
