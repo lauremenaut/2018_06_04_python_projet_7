@@ -17,8 +17,7 @@ class Parser:
 
     """ Set Parser class.
 
-    Consists of 5 private methods :
-        - __init__()
+    Consist of 4 private methods :
         - _parse()
         - _cut_into_sentences()
         - _choose_sentence()

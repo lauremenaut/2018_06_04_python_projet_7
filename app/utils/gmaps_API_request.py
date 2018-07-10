@@ -19,8 +19,7 @@ class GmapsApiRequest:
 
     """ Set GmapsApiRequest class.
 
-    Consist of 2 private methods :
-        - __init__()
+    Consist of 1 private method :
         - _get_position_info()
 
     """

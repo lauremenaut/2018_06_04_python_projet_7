@@ -16,8 +16,7 @@ class MediaWikiApiRequest:
 
     """ Set MediaWikiApiRequest class.
 
-    Consist of 3 private methods :
-        - __init__()
+    Consist of 2 private methods :
         - _get_page_id()
         - _get_summary()
 
