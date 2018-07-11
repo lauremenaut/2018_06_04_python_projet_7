@@ -1,5 +1,5 @@
-#! /usr/bin/env python3
-# coding: utf-8
+# #! /usr/bin/env python3
+# # coding: utf-8
 
 from app.locate import locate
 from app.utils.messages import address_success_messages, parser_failure_messages, address_failure_messages, summary_success_messages, summary_failure_messages, next_question_messages
@@ -27,7 +27,6 @@ class TestLocateSuccess:
         assert self.locate_return[5] in summary_success_messages
 
     def test_locate_summary(self):
-        print(self.locate_return[6])
         assert self.locate_return[6] == "Le parc Maisonneuve est un grand parc de Montréal situé dans l'arrondissement Rosemont–La Petite-Patrie.\nIl est situé près d'un club de golf et de l'Espace pour la vie, comprenant notamment le Jardin botanique. Il est nommé en l'honneur de Paul Chomedey de Maisonneuve, cofondateur de Montréal.\nDe grands spectacles y sont aussi organisés."
 
     def test_locate_next_question_message(self):
@@ -56,7 +55,6 @@ class TestLocateParserFailure:
         assert self.locate_return[5] is None
 
     def test_locate_summary(self):
-        print(self.locate_return[6])
         assert self.locate_return[6] is None
 
     def test_locate_next_question_message(self):
@@ -85,7 +83,6 @@ class TestLocateAddressFailure:
         assert self.locate_return[5] is None
 
     def test_locate_summary(self):
-        print(self.locate_return[6])
         assert self.locate_return[6] is None
 
     def test_locate_next_question_message(self):
@@ -114,7 +111,6 @@ class TestLocateSummaryFailure:
         assert self.locate_return[5] in summary_failure_messages
 
     def test_locate_summary(self):
-        print(self.locate_return[6])
         assert self.locate_return[6] is None
 
     def test_locate_next_question_message(self):
