@@ -40,7 +40,6 @@ def locate(query):
     summary = None
     next_question_message = random.choice(next_question_messages)
 
-    # -tc- l'utilisation de ParserError me semble bien ici
     try:
         parser = Parser(query)
         logging.debug("Here are relevant words selected by parser : {}".format(parser.query_relevant_words))
@@ -63,20 +62,8 @@ def locate(query):
         lng = gmaps_api_request.lng
         logging.debug("Here are latitude and longitude returned by GoogleMaps API : {}, {}".format(lat, lng))
 
-        # -tc- L'utilisation de GmapsApiError me semble bien. Quel problème rencontres-tu?
-        if gmaps_api_request is None:
-            raise GmapsApiError("GoogleMaps didn't find any matching place ...")
-
     except GmapsApiError as e:
-        logging.warning("GmapsApiError  {}".format(e))
-        error = True
-        message = random.choice(address_failure_messages)
-        summary_message = None
-        next_question_message = None
-        return error, message, address, lat, lng, summary_message, summary, next_question_message
-
-    except AttributeError as e:
-        logging.warning("AttributeError : {}".format(e))
+        logging.warning("GmapsApiError : {}".format(e))
         error = True
         message = random.choice(address_failure_messages)
         summary_message = None
@@ -87,15 +74,8 @@ def locate(query):
         mediawiki_api_request = MediaWikiApiRequest(lat, lng)
         summary = mediawiki_api_request.summary
 
-        if not mediawiki_api_request:
-            raise MediaWikiApiError("MediaWiki didn't find any matching article ...")
-
     except MediaWikiApiError as e:
         logging.warning("MediaWikiError : {}".format(e))
-        summary_message = random.choice(summary_failure_messages)
-
-    except AttributeError as e:
-        logging.warning("AttributeError : {}".format(e))
         summary_message = random.choice(summary_failure_messages)
 
     return error, message, address, lat, lng, summary_message, summary, next_question_message

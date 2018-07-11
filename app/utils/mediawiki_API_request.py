@@ -11,6 +11,8 @@ import logging
 
 from requests import get
 
+from app.exceptions import MediaWikiApiError
+
 
 class MediaWikiApiRequest:
 
@@ -61,10 +63,9 @@ class MediaWikiApiRequest:
         try:
             pageid = data['query']['geosearch'][0]['pageid']
             return pageid
-        except KeyError as e:
-            logging.warning(" MediaWiki didn't find any matching article ... KeyError : {}".format(e))
+
         except IndexError as e:
-            logging.warning(" MediaWiki didn't find any matching article ... IndexError : {}".format(e))
+            raise MediaWikiApiError("MediaWiki didn't find any matching article ... ({})".format(e))
 
     def _get_summary(self, pageid):
         """ Set _get_summary() method.
@@ -87,5 +88,10 @@ class MediaWikiApiRequest:
         response = get('https://fr.wikipedia.org/w/api.php',
                        params=parameters)
         data = response.json()
-        summary = data['query']['pages'][str(pageid)]['extract']
-        return summary
+
+        try:
+            summary = data['query']['pages'][str(pageid)]['extract']
+            return summary
+
+        except IndexError as e:
+            raise MediaWikiApiError("MediaWiki is not able to display article corresponding to pageid {} ... ({})".format(pageid, e))
