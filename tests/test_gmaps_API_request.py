@@ -1,13 +1,10 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-import requests
-
 import app.utils.gmaps_API_request as gmaps
 
 
 class TestGmapsApiRequest:
-
     gmaps_API_request = gmaps.GmapsApiRequest('piscine Foix')
 
     def test_get_position_info(self, monkeypatch):
@@ -34,8 +31,5 @@ class TestGmapsApiRequest:
         def mockreturn(url, params):
             return MockResponse()
 
-        # -tc- il faut replacer la fonction get dans ton module
-        # -tc- gmaps_API_request.py et non pas dans requests.
-        # -tc- Maintenant le test passe.
         monkeypatch.setattr(gmaps, 'get', mockreturn)
         assert self.gmaps_API_request._get_position_info('piscine Foix') == results["results"][0]
