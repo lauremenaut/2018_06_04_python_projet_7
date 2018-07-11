@@ -10,4 +10,4 @@ from wtforms import TextAreaField
 
 class QueryForm(FlaskForm):
     """ Set 'query' variable as an instance of TextAreaField """
-    query = TextAreaField("Saisissez ici votre question pour GrandPy Bot :")
+    query = TextAreaField("Vous pouvez saisir ici votre question pour GrandPy Bot et taper sur Entrée pour envoyer :")
