@@ -65,7 +65,10 @@ class MediaWikiApiRequest:
             return pageid
 
         except IndexError as e:
-            raise MediaWikiApiError("MediaWiki didn't find any matching article ... ({})".format(e))
+            raise MediaWikiApiError("MediaWiki didn't find any matching article ... (IndexError : {})".format(e))
+
+        except KeyError as e:
+            raise MediaWikiApiError("MediaWiki didn't find any matching article ... (KeyError : {})".format(e))
 
     def _get_summary(self, pageid):
         """ Set _get_summary() method.
