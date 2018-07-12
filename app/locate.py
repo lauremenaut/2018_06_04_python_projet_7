@@ -40,6 +40,12 @@ def locate(query):
     summary = None
     next_question_message = random.choice(next_question_messages)
 
+    # def return_infos():
+    #       if error:
+    #         summary_message = None
+    #         next_question_message = None
+    #     return error, message, address, lat, lng, summary_message, summary, next_question_message
+
     try:
         parser = Parser(query)
         logging.debug("Here are relevant words selected by parser : {}".format(parser.query_relevant_words))
@@ -64,6 +70,14 @@ def locate(query):
 
     except GmapsApiError as e:
         logging.warning("GmapsApiError : {}".format(e))
+        error = True
+        message = random.choice(address_failure_messages)
+        summary_message = None
+        next_question_message = None
+        return error, message, address, lat, lng, summary_message, summary, next_question_message
+
+    except AttributeError as e:
+        logging.warning("AttributeError : {}".format(e))
         error = True
         message = random.choice(address_failure_messages)
         summary_message = None
