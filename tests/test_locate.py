@@ -10,7 +10,7 @@ class TestLocate:
     def test_locate_success(self, monkeypatch):
 
         class MockApis:
-            """ Set MockResponse class. """
+            """ Set MockApis class. """
             def __init__(self, param1="", param2=""):
                 self.address = '1B Avenue du Général de Gaulle, 09000 Foix, France'
                 self.lat = 42.9600983
@@ -34,12 +34,12 @@ class TestLocate:
     def test_locate_parser_failure(self, monkeypatch):
 
         class MockApis:
-            """ Set MockResponse class. """
+            """ Set MockApis class. """
             def __init__(self, param1="", param2=""):
-                self.address is None
-                self.lat is None
-                self.lng is None
-                self.summary is None
+                self.address = None
+                self.lat = None
+                self.lng = None
+                self.summary = None
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
         monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
@@ -58,12 +58,12 @@ class TestLocate:
     def test_locate_address_failure(self, monkeypatch):
 
         class MockApis:
-            """ Set MockResponse class. """
+            """ Set MockApis class. """
             def __init__(self, param1="", param2=""):
-                self.address is None
-                self.lat is None
-                self.lng is None
-                self.summary is None
+                self.address = None
+                self.lat = None
+                self.lng = None
+                self.summary = None
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
         monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
@@ -82,12 +82,12 @@ class TestLocate:
     def test_locate_summary_failure(self, monkeypatch):
 
         class MockApis:
-            """ Set MockResponse class. """
+            """ Set MockApis class. """
             def __init__(self, param1="", param2=""):
                 self.address = "Atlantic Ocean"
                 self.lat = -14.5994134
                 self.lng = -28.6731465
-                self.summary is None
+                self.summary = None
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
         monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
