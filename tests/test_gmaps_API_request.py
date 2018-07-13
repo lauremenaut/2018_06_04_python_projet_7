@@ -14,18 +14,18 @@ class TestGmapsApiRequest:
     """ Set TestGmapsApiRequest class. """
 
     def test_gmaps_api_request(self, monkeypatch):
-        """ Set test_get_position_info() method. """
+        """ Set test_gmaps_api_request() method. """
         results = {
             "results": [
                 {
-                    'formatted_address': '1B Avenue du Général de Gaulle, 09000 Foix, France',
-                    'geometry': {
-                        'location': {
-                            'lat': 42.9600983,
-                            'lng': 1.609331
+                        'formatted_address': '1B Avenue du Général de Gaulle, 09000 Foix, France',
+                        'geometry': {
+                            'location': {
+                                'lat': 42.9600983,
+                                'lng': 1.609331
+                            }
                         }
                     }
-                }
             ]
         }
 

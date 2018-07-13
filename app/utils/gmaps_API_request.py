@@ -65,7 +65,3 @@ class GmapsApiRequest:
         except IndexError as e:
             logging.warning("IndexError : {}".format(e))
             raise GmapsApiError("GoogleMaps didn't find any matching place ... ({})".format(e))
-
-
-
-
