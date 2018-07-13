@@ -3,14 +3,15 @@
 
 """ Set Parser class.
 
-Parser class allows extracting relevant words from query submitted by user.
+Parser class allows extracting relevant words from query submitted by
+user.
 
 """
 
 import re
 
-from app.utils.stop_words import stop_words
-from app.utils.question_words import question_words
+from app.utils.question_words import QUESTION_WORDS
+from app.utils.stop_words import STOP_WORDS
 
 
 class Parser:
@@ -29,7 +30,8 @@ class Parser:
         """ Parser constructor.
 
         Receive a string containing user query.
-        Set 'self.query_relevant_words' attribute calling _parse() method.
+        Set 'self.query_relevant_words' attribute calling _parse()
+        method.
 
         """
         self.query_relevant_words = self._parse(user_query)
@@ -51,7 +53,8 @@ class Parser:
         """ Set _cut_into_sentences() method.
 
         Receive the string containing user query.
-        Return a list containing sentences from user query cut according punctuation, except '?'.
+        Return a list containing sentences from user query cut according
+        punctuation, except '?'.
 
         """
         cut_sentences = re.split('[!,:;.]', user_query)
@@ -61,20 +64,22 @@ class Parser:
         """ Set _choose_sentence() method.
 
         Receive a list of sentences.
-        Return a string containing choosen sentence according 'question words'.
+        Return a string containing choosen sentence according 'question
+        words'.
 
         """
         chosen_sentence = []
         for sentence in sentences:
             # Each sentence is cut into a list of words
             words_of_sentence = re.split("[ ']", sentence)
-            # If at least one word is contained in 'question_words' list, then
-            # the sentence is added to 'chosen_sentence' list
+            # If at least one word is contained in 'question_words'
+            # list, then the sentence is added to 'chosen_sentence' list
             for word in words_of_sentence:
-                if word in question_words:  # or re.match(r"^[A-Z]", word[0]):  # Add comment for re.match if kept
+                if word in QUESTION_WORDS:
                     chosen_sentence.append(sentence.strip())
                     break
-        # If no sentence was previously added to 'chosen_sentence', then all sentences are selected
+        # If no sentence was previously added to 'chosen_sentence',
+        # then all sentences are selected
         if chosen_sentence == []:
             for sentence in sentences:
                 chosen_sentence.append(sentence.strip())
@@ -92,8 +97,9 @@ class Parser:
 
         """
         relevant_words = []
-        # Words that don't appear in 'stop_words' list are added to 'relevant_words' list
+        # Words that don't appear in 'stop_words' list are added to
+        # 'relevant_words' list
         for word in words:
-            if word.lower() not in stop_words:
+            if word.lower() not in STOP_WORDS:
                 relevant_words.append(word)
         return relevant_words

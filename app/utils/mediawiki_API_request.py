@@ -18,7 +18,7 @@ class MediaWikiApiRequest:
 
     """ Set MediaWikiApiRequest class.
 
-    Consist of 2 private methods :
+    Consist of a constructor & 2 private methods :
         - _get_page_id()
         - _get_summary()
 
@@ -28,7 +28,7 @@ class MediaWikiApiRequest:
         """ MediaWikiApiRequest constructor.
 
         Receive 2 floating numbers representing latitude & longitude.
-        Set self.summary attribute.
+        Set self.summary public attribute.
 
         """
         pageid = self._get_pageid(lat, lng)
@@ -40,7 +40,8 @@ class MediaWikiApiRequest:
 
         Receive 2 floating numbers from contructor.
         Send request to MediaWiki API.
-        Return an integer corresponding to the page ID of the MediaWiki article referenced as being next to the searched position.
+        Return an integer corresponding to the page ID of the MediaWiki
+        article referenced as being next to the searched position.
 
         """
         lat_lng = "|".join([str(lat), str(lng)])
@@ -56,7 +57,8 @@ class MediaWikiApiRequest:
         response = get('https://fr.wikipedia.org/w/api.php',
                        params=parameters)
         if response.status_code != 200:
-            print("Erreur {} : problème d'accès à l'API MediaWiki".format(response.status_code))
+            logging.error("API MediaWiki failed ... Status code %s",
+                          response.status_code)
 
         data = response.json()
 
@@ -64,18 +66,19 @@ class MediaWikiApiRequest:
             pageid = data['query']['geosearch'][0]['pageid']
             return pageid
 
-        except IndexError as e:
-            raise MediaWikiApiError("MediaWiki didn't find any matching article ... (IndexError : {})".format(e))
+        except IndexError as error:
+            raise MediaWikiApiError("MediaWiki didn't find any matching \
+article ... ({})".format(error))
 
     def _get_summary(self, pageid):
         """ Set _get_summary() method.
 
         Receive an integer representing page ID of MediaWiki.
         Send request to MediaWiki API.
-        Return a string containing summary of MediaWiki article corresponding to page ID.
+        Return a string containing summary of MediaWiki article
+        corresponding to page ID.
 
         """
-
         parameters = {
             'action': 'query',
             'format': 'json',
@@ -89,7 +92,8 @@ class MediaWikiApiRequest:
                        params=parameters)
 
         if response.status_code != 200:
-            print("Erreur {} : problème d'accès à l'API MediaWiki".format(response.status_code))
+            logging.error("API MediaWiki failed ... Status code %s",
+                          response.status_code)
 
         data = response.json()
 
@@ -97,5 +101,6 @@ class MediaWikiApiRequest:
             summary = data['query']['pages'][str(pageid)]['extract']
             return summary
 
-        except IndexError as e:
-            raise MediaWikiApiError("MediaWiki is not able to display article corresponding to pageid {} ... ({})".format(pageid, e))
+        except IndexError as error:
+            raise MediaWikiApiError("MediaWiki is not able to display article \
+corresponding to pageid {} ... ({})".format(pageid, error))

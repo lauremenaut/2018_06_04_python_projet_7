@@ -19,8 +19,7 @@ class GmapsApiRequest:
 
     """ Set GmapsApiRequest class.
 
-    Consist of 1 private method :
-        - _get_position_info()
+    Consist of a constructor & 1 private method : _get_position_info()
 
     """
 
@@ -28,7 +27,7 @@ class GmapsApiRequest:
         """ GmapsApiRequest constructor.
 
         Receive a list of relevant words from user query.
-        Set self.address, self.lat and self.lng attributes.
+        Set self.address, self.lat and self.lng public attributes.
 
         """
         position_info = self._get_position_info(query)
@@ -54,7 +53,8 @@ class GmapsApiRequest:
         response = get('https://maps.googleapis.com/maps/api/geocode/json',
                        params=parameters)
         if response.status_code != 200:
-            logging.error(" Localisation failed ... Status code '{}'".format(response.status_code))
+            logging.error(" Localisation failed ... Status code %s",
+                          response.status_code)
 
         data = response.json()
 
@@ -62,6 +62,6 @@ class GmapsApiRequest:
             position_info = data['results'][0]
             return position_info
 
-        except IndexError as e:
-            logging.warning("IndexError : {}".format(e))
-            raise GmapsApiError("GoogleMaps didn't find any matching place ... ({})".format(e))
+        except IndexError as error:
+            raise GmapsApiError("GoogleMaps didn't find any matching place ...\
+ ({})".format(error))

@@ -5,16 +5,21 @@
 
 
 class ParserError(Exception):
+
+    """ Set ParserError customised exception """
+
     pass
 
 
-class ApiError(Exception):
+class GmapsApiError(Exception):
+
+    """ Set GmapsApiError customised exception """
+
     pass
 
 
-class GmapsApiError(ApiError):
-    pass
+class MediaWikiApiError(Exception):
 
+    """ Set MediaWikiApiError customised exception """
 
-class MediaWikiApiError(ApiError):
     pass
