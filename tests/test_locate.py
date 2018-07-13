@@ -1,117 +1,104 @@
-# #! /usr/bin/env python3
-# # coding: utf-8
+#! /usr/bin/env python3
+# coding: utf-8
 
-from app.locate import locate
 from app.utils.messages import address_success_messages, parser_failure_messages, address_failure_messages, summary_success_messages, summary_failure_messages, next_question_messages
+import app.locate
 
 
-class TestLocateSuccess:
-    locate_return = locate("Bonjour GrandPy, comment ça va ? J'aimerais savoir comment aller au Jardin Botanique de Montréal.")
+class TestLocate:
 
-    def test_locate_error(self):
-        assert self.locate_return[0] is False
+    def test_locate_success(self, monkeypatch):
 
-    def test_locate_message(self):
-        assert self.locate_return[1] in address_success_messages
+        class MockApis:
+            """ Set MockResponse class. """
+            def __init__(self, param1="", param2=""):
+                self.address = '1B Avenue du Général de Gaulle, 09000 Foix, France'
+                self.lat = 42.9600983
+                self.lng = 1.609331
+                self.summary = "Le Festival international de films Résistances, appelé plus simplement le Festival Résistances, se déroule à Foix en Ariège (Midi-Pyrénées) début juillet et propose une programmation de plus de 100 films, allant du documentaire à la fiction. Il est un des événements culturels les plus importants de la région.\nFondé en 1997, le festival s'inscrit dans un esprit de résistance à l'image des terres sur lesquels il a grandi. Il s'est donné comme objectif de promouvoir un cinéma engagé, rarement diffusé, et proposer un nouveau regard sur le monde.\nLe festival est peu à peu devenu l'un des événements majeurs de la contre-culture cinématographique en France."
 
-    def test_locate_address(self):
-        assert self.locate_return[2] == "Montreal Botanical Garden, 4101 Rue Sherbrooke E, Montréal, QC H1X 2B2, Canada"
+        monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
+        monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
 
-    def test_locate_lat(self):
-        assert self.locate_return[3] == 45.56000179999999
+        locate_return = app.locate.locate("Bonjour GrandPy, comment ça va ? J'aimerais savoir comment aller à la piscine de Foix.")
 
-    def test_locate_lng(self):
-        assert self.locate_return[4] == -73.5630089
+        assert locate_return[0] is False
+        assert locate_return[1] in address_success_messages
+        assert locate_return[2] == "1B Avenue du Général de Gaulle, 09000 Foix, France"
+        assert locate_return[3] == 42.9600983
+        assert locate_return[4] == 1.609331
+        assert locate_return[5] in summary_success_messages
+        assert locate_return[6] == "Le Festival international de films Résistances, appelé plus simplement le Festival Résistances, se déroule à Foix en Ariège (Midi-Pyrénées) début juillet et propose une programmation de plus de 100 films, allant du documentaire à la fiction. Il est un des événements culturels les plus importants de la région.\nFondé en 1997, le festival s'inscrit dans un esprit de résistance à l'image des terres sur lesquels il a grandi. Il s'est donné comme objectif de promouvoir un cinéma engagé, rarement diffusé, et proposer un nouveau regard sur le monde.\nLe festival est peu à peu devenu l'un des événements majeurs de la contre-culture cinématographique en France."
+        assert locate_return[7] in next_question_messages
 
-    def test_locate_summary_message(self):
-        assert self.locate_return[5] in summary_success_messages
+    def test_locate_parser_failure(self, monkeypatch):
 
-    def test_locate_summary(self):
-        assert self.locate_return[6] == "Le parc Maisonneuve est un grand parc de Montréal situé dans l'arrondissement Rosemont–La Petite-Patrie.\nIl est situé près d'un club de golf et de l'Espace pour la vie, comprenant notamment le Jardin botanique. Il est nommé en l'honneur de Paul Chomedey de Maisonneuve, cofondateur de Montréal.\nDe grands spectacles y sont aussi organisés."
+        class MockApis:
+            """ Set MockResponse class. """
+            def __init__(self, param1="", param2=""):
+                self.address is None
+                self.lat is None
+                self.lng is None
+                self.summary is None
 
-    def test_locate_next_question_message(self):
-        assert self.locate_return[7] in next_question_messages
+        monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
+        monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
 
+        locate_return = app.locate.locate("Je ne sais pas ce que je cherche !")
 
-class TestLocateParserFailure:
-    locate_return = locate("Je ne sais pas ce que je cherche !")
+        assert locate_return[0] is True
+        assert locate_return[1] in parser_failure_messages
+        assert locate_return[2] is None
+        assert locate_return[3] is None
+        assert locate_return[4] is None
+        assert locate_return[5] is None
+        assert locate_return[6] is None
+        assert locate_return[7] is None
 
-    def test_locate_error(self):
-        assert self.locate_return[0] is True
+    def test_locate_address_failure(self, monkeypatch):
 
-    def test_locate_message(self):
-        assert self.locate_return[1] in parser_failure_messages
+        class MockApis:
+            """ Set MockResponse class. """
+            def __init__(self, param1="", param2=""):
+                self.address is None
+                self.lat is None
+                self.lng is None
+                self.summary is None
 
-    def test_locate_address(self):
-        assert self.locate_return[2] is None
+        monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
+        monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
 
-    def test_locate_lat(self):
-        assert self.locate_return[3] is None
+        locate_return = app.locate.locate("Je cherche l'adresse d'Openclassrooms")
 
-    def test_locate_lng(self):
-        assert self.locate_return[4] is None
+        assert locate_return[0] is True
+        assert locate_return[1] in address_failure_messages
+        assert locate_return[2] is None
+        assert locate_return[3] is None
+        assert locate_return[4] is None
+        assert locate_return[5] is None
+        assert locate_return[6] is None
+        assert locate_return[7] is None
 
-    def test_locate_summary_message(self):
-        assert self.locate_return[5] is None
+    def test_locate_summary_failure(self, monkeypatch):
 
-    def test_locate_summary(self):
-        assert self.locate_return[6] is None
+        class MockApis:
+            """ Set MockResponse class. """
+            def __init__(self, param1="", param2=""):
+                self.address = "Atlantic Ocean"
+                self.lat = -14.5994134
+                self.lng = -28.6731465
+                self.summary is None
 
-    def test_locate_next_question_message(self):
-        assert self.locate_return[7] is None
+        monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
+        monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
 
+        locate_return = app.locate.locate("Connais-tu l'Océan Atlantique ?")
 
-class TestLocateAddressFailure:
-    locate_return = locate("Je cherche l'adresse d'Openclassrooms")
-
-    def test_locate_error(self):
-        assert self.locate_return[0] is True
-
-    def test_locate_message(self):
-        assert self.locate_return[1] in address_failure_messages
-
-    def test_locate_address(self):
-        assert self.locate_return[2] is None
-
-    def test_locate_lat(self):
-        assert self.locate_return[3] is None
-
-    def test_locate_lng(self):
-        assert self.locate_return[4] is None
-
-    def test_locate_summary_message(self):
-        assert self.locate_return[5] is None
-
-    def test_locate_summary(self):
-        assert self.locate_return[6] is None
-
-    def test_locate_next_question_message(self):
-        assert self.locate_return[7] is None
-
-
-class TestLocateSummaryFailure:
-    locate_return = locate("Connais-tu l'Océan Atlantique ?")
-
-    def test_locate_error(self):
-        assert self.locate_return[0] is False
-
-    def test_locate_message(self):
-        assert self.locate_return[1] in address_success_messages
-
-    def test_locate_address(self):
-        assert self.locate_return[2] == "Atlantic Ocean"
-
-    def test_locate_lat(self):
-        assert self.locate_return[3] == -14.5994134
-
-    def test_locate_lng(self):
-        assert self.locate_return[4] == -28.6731465
-
-    def test_locate_summary_message(self):
-        assert self.locate_return[5] in summary_failure_messages
-
-    def test_locate_summary(self):
-        assert self.locate_return[6] is None
-
-    def test_locate_next_question_message(self):
-        assert self.locate_return[7] in next_question_messages
+        assert locate_return[0] is False
+        assert locate_return[1] in address_success_messages
+        assert locate_return[2] == "Atlantic Ocean"
+        assert locate_return[3] == -14.5994134
+        assert locate_return[4] == -28.6731465
+        assert locate_return[5] in summary_failure_messages
+        assert locate_return[6] is None
+        assert locate_return[7] in next_question_messages
