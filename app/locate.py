@@ -28,23 +28,14 @@ def locate(query):
     - summary : a string sent back by MediaWiki API, or None
     - next_question_message : a string randomly chosen in messages module, or None
 
-
     """
     # 'error' variable is True only if no address is returned (parser failure & address failure)
-    error = False
-    message = random.choice(address_success_messages)
-    address = None
-    lat = None
-    lng = None
-    summary_message = random.choice(summary_success_messages)
-    summary = None
-    next_question_message = random.choice(next_question_messages)
+    def return_infos(error=False, message=random.choice(address_success_messages), address=None, lat=None, lng=None, summary_message=random.choice(summary_success_messages), summary=None, next_question_message=random.choice(next_question_messages)):
+        if error:
+            summary_message = None
+            next_question_message = None
 
-    # def return_infos():
-    #       if error:
-    #         summary_message = None
-    #         next_question_message = None
-    #     return error, message, address, lat, lng, summary_message, summary, next_question_message
+        return error, message, address, lat, lng, summary_message, summary, next_question_message
 
     try:
         parser = Parser(query)
@@ -55,11 +46,7 @@ def locate(query):
 
     except ParserError as e:
         logging.warning("ParserError : {}".format(e))
-        error = True
-        message = random.choice(parser_failure_messages)
-        summary_message = None
-        next_question_message = None
-        return error, message, address, lat, lng, summary_message, summary, next_question_message
+        return return_infos(error=True, message=random.choice(parser_failure_messages))
 
     try:
         gmaps_api_request = GmapsApiRequest(parser.query_relevant_words)
@@ -70,26 +57,20 @@ def locate(query):
 
     except GmapsApiError as e:
         logging.warning("GmapsApiError : {}".format(e))
-        error = True
-        message = random.choice(address_failure_messages)
-        summary_message = None
-        next_question_message = None
-        return error, message, address, lat, lng, summary_message, summary, next_question_message
+        return return_infos(error=True, message=random.choice(address_failure_messages))
 
     except AttributeError as e:
         logging.warning("AttributeError : {}".format(e))
-        error = True
-        message = random.choice(address_failure_messages)
-        summary_message = None
-        next_question_message = None
-        return error, message, address, lat, lng, summary_message, summary, next_question_message
+        return return_infos(error=True, message=random.choice(address_failure_messages))
 
     try:
         mediawiki_api_request = MediaWikiApiRequest(lat, lng)
-        summary = mediawiki_api_request.summary
+        return return_infos(address=address, lat=lat, lng=lng, summary=mediawiki_api_request.summary)
 
     except MediaWikiApiError as e:
         logging.warning("MediaWikiError : {}".format(e))
-        summary_message = random.choice(summary_failure_messages)
+        return return_infos(address=address, lat=lat, lng=lng, summary_message=random.choice(summary_failure_messages))
 
-    return error, message, address, lat, lng, summary_message, summary, next_question_message
+    except AttributeError as e:
+        logging.warning("AttributeError : {}".format(e))
+        return return_infos(address=address, lat=lat, lng=lng, summary_message=random.choice(summary_failure_messages))
