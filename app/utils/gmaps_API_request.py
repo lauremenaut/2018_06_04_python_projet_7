@@ -53,8 +53,8 @@ class GmapsApiRequest:
 
         response = get('https://maps.googleapis.com/maps/api/geocode/json',
                        params=parameters)
-        # if response.status_code != 200:
-        #     logging.error(" Localisation failed ... Status code '{}'".format(response.status_code))
+        if response.status_code != 200:
+            logging.error(" Localisation failed ... Status code '{}'".format(response.status_code))
 
         data = response.json()
 
@@ -64,5 +64,8 @@ class GmapsApiRequest:
 
         except IndexError as e:
             logging.warning("IndexError : {}".format(e))
-            # Quand je décommente la ligne du "raise", les tests ne passent qu'une fois sur 2 ?!
-            # raise GmapsApiError("GoogleMaps didn't find any matching place ... ({})".format(e))
+            raise GmapsApiError("GoogleMaps didn't find any matching place ... ({})".format(e))
+
+
+
+
