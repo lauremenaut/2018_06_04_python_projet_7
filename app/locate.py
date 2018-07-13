@@ -31,6 +31,7 @@ def locate(query):
     """
     # 'error' variable is True only if no address is returned (parser failure & address failure)
     def return_infos(error=False, message=random.choice(address_success_messages), address=None, lat=None, lng=None, summary_message=random.choice(summary_success_messages), summary=None, next_question_message=random.choice(next_question_messages)):
+        """ Set return_infos() method. """
         if error:
             summary_message = None
             next_question_message = None
@@ -55,22 +56,31 @@ def locate(query):
         lng = gmaps_api_request.lng
         logging.debug("Here are latitude and longitude returned by GoogleMaps API : {}, {}".format(lat, lng))
 
+        if not gmaps_api_request.address:
+            logging.warning("GmapsApiError")
+            return return_infos(error=True, message=random.choice(address_failure_messages))
+
     except GmapsApiError as e:
         logging.warning("GmapsApiError : {}".format(e))
         return return_infos(error=True, message=random.choice(address_failure_messages))
 
-    except AttributeError as e:
-        logging.warning("AttributeError : {}".format(e))
-        return return_infos(error=True, message=random.choice(address_failure_messages))
+    # except AttributeError as e:
+    #     logging.warning("AttributeError : {}".format(e))
+    #     return return_infos(error=True, message=random.choice(address_failure_messages))
 
     try:
         mediawiki_api_request = MediaWikiApiRequest(lat, lng)
-        return return_infos(address=address, lat=lat, lng=lng, summary=mediawiki_api_request.summary)
+
+        if not mediawiki_api_request.summary:
+            logging.warning("MediaWikiError")
+            return return_infos(address=address, lat=lat, lng=lng, summary_message=random.choice(summary_failure_messages))
 
     except MediaWikiApiError as e:
         logging.warning("MediaWikiError : {}".format(e))
         return return_infos(address=address, lat=lat, lng=lng, summary_message=random.choice(summary_failure_messages))
 
-    except AttributeError as e:
-        logging.warning("AttributeError : {}".format(e))
-        return return_infos(address=address, lat=lat, lng=lng, summary_message=random.choice(summary_failure_messages))
+    # except AttributeError as e:
+    #     logging.warning("AttributeError : {}".format(e))
+    #     return return_infos(address=address, lat=lat, lng=lng, summary_message=random.choice(summary_failure_messages))
+
+    return return_infos(address=address, lat=lat, lng=lng, summary=mediawiki_api_request.summary)
