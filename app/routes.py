@@ -11,11 +11,7 @@ from app import appl
 from app.form import QueryForm
 from app.locate import locate
 
-# logging.basicConfig(filename="log.log",
-#                     level=logging.DEBUG,
-#                     format='%(asctime)s -- %(name)s -- %(levelname)s -- \
-# %(message)s')
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(filename="log.log", level=logging.DEBUG,
                     format='%(asctime)s -- %(name)s -- %(levelname)s -- \
 %(message)s')
 
