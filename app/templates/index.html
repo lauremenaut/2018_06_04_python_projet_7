@@ -16,13 +16,13 @@
         </header>
 
         <section>
-            <div id="dialogue_area">GrandPy : Bonjour mon petit, as-tu une question pour moi ?<br></div>
+            <div id="dialogue_area">GrandPy : Bonjour mon ami, as-tu une question pour moi ?<br></div>
             <div id="map"></div>
             <form method="post" action="" id="query_field">
                 {{ form.hidden_tag() }}
                 <p>
                     {{ form.query.label }}<br>
-                    {{ form.query(id="query", cols=200, rows=1, maxlength=200, placeholder="Salut GrandPy ! Est-ce que tu sais à quelle adresse se trouve la Tour Eiffel ?", autofocus=true) }}
+                    {{ form.query(id="query", cols=200, rows=1, maxlength=200, placeholder=" Salut GrandPy ! Est-ce que tu sais à quelle adresse se trouve la Tour Eiffel ?", autofocus=true) }}
                 </p>
             </form>
         </section>
