@@ -1,19 +1,23 @@
-body
-{
-    border: 3px solid black;
-}
-
 header
 {
     background-color: black;
     color: white;
     text-align: center;
     height: 189px;
+    font-family: times;
+}
+
+body
+{
+    border: 3px solid black;
+    font-family: times;
 }
 
 footer
 {
     text-align: center;
+    font-family: times;
+    font-size: 18px;
 }
 
 .grandpa_bot
@@ -26,6 +30,8 @@ footer
     height: 300px;
     overflow: auto;
     padding: 20px 20px 20px 20px;
+    font-size: 18px;
+    font-family: times;
 }
 
 #map
@@ -39,11 +45,13 @@ footer
 {
     height: 100px;
     padding: 20px 20px 20px 20px;
+    font-size: 20px;
+    font-family: times;
 }
 
 #query
 {
-    font-size: 14px;
+    font-size: 18px;
     font-family: times;
     height: 30px;
     width: 100%;
