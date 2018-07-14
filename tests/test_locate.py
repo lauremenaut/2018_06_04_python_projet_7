@@ -10,6 +10,7 @@ from app.utils.messages import (ADDRESS_SUCCESS_MESSAGES,
                                 SUMMARY_SUCCESS_MESSAGES,
                                 SUMMARY_FAILURE_MESSAGES,
                                 NEXT_QUESTION_MESSAGES)
+from app.exceptions import GmapsApiError, MediaWikiApiError
 
 
 class TestLocate:
@@ -51,10 +52,7 @@ Foix, France"
             """ Set MockApis class. """
 
             def __init__(self, param1="", param2=""):
-                self.address = None
-                self.lat = None
-                self.lng = None
-                self.summary = None
+                pass
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
         monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
@@ -77,10 +75,7 @@ Foix, France"
             """ Set MockApis class. """
 
             def __init__(self, param1="", param2=""):
-                self.address = None
-                self.lat = None
-                self.lng = None
-                self.summary = None
+                raise GmapsApiError()
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
         monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
@@ -107,7 +102,8 @@ d'Openclassrooms")
                 self.address = "Atlantic Ocean"
                 self.lat = -14.5994134
                 self.lng = -28.6731465
-                self.summary = None
+                if param2:
+                    raise MediaWikiApiError()
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
         monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
