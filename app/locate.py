@@ -8,8 +8,8 @@ import random
 
 from app.exceptions import ParserError, GmapsApiError, MediaWikiApiError
 from app.utils.parser import Parser
-from app.utils.gmaps_api_request import GmapsApiRequest
-from app.utils.mediawiki_api_request import MediaWikiApiRequest
+from app.utils.gmaps_API_request import GmapsApiRequest
+from app.utils.mediawiki_API_request import MediaWikiApiRequest
 from app.utils.messages import (ADDRESS_SUCCESS_MESSAGES,
                                 PARSER_FAILURE_MESSAGES,
                                 ADDRESS_FAILURE_MESSAGES,

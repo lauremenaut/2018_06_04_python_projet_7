@@ -8,7 +8,7 @@ mediawiki_API_request.py.
 
 """
 
-import app.utils.mediawiki_api_request as mediawiki
+import app.utils.mediawiki_API_request as mediawiki
 
 
 class TestMediawikiApiRequest:

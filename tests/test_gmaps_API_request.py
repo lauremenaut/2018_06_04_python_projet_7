@@ -7,7 +7,7 @@ TestGmapsApiRequest class set a mock of 'get' method from gmaps_api_request.py.
 
 """
 
-import app.utils.gmaps_api_request as gmaps
+import app.utils.gmaps_API_request as gmaps
 
 
 class TestGmapsApiRequest:
