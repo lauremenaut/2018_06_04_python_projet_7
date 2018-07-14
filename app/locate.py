@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-""" Sets locate() function """
+""" Sets locate() function (called in query_locate() view function). """
 
 import logging
 import random
@@ -24,16 +24,20 @@ def locate(query):
     Receive a string containing user query.
     Use Parser, GmapsApiRequest and MediaWikiApiRequest classes.
     Return a list of 8 variables :
-    - error : a boolean, False if an address is found, True else
-    - message : a string randomly chosen in messages module
-    - address : a string sent back by Google Maps API, or None
-    - lat : a floating number sent back by Google Maps API, or None
-    - lng : a floating number sent back by Google Maps API, or None
-    - summary_message : a string randomly chosen in messages module, or
+    - error : a boolean, False if an address is found, else True
+    - message : a string randomly chosen in messages lists
+    - address : a string containing the address of the searched place
+    (sent back by Google Maps API), or None
+    - lat : a floating number representing latitude (sent back by Google
+    Maps API), or None
+    - lng : a floating number representing longitude (sent back by
+    Google Maps API), or None
+    - summary_message : a string randomly chosen in messages lists, or
     None
-    - summary : a string sent back by MediaWiki API, or None
+    - summary : a string containing information about the searched place
+    (sent back by MediaWiki API), or None
     - next_question_message : a string randomly chosen in messages
-    module, or None
+    list, or None
 
     """
     # 'error' variable is True only if no address is returned (parser
@@ -77,12 +81,6 @@ def locate(query):
         logging.debug("Here are latitude and longitude returned by GoogleMaps \
 API : %s, %s", lat, lng)
 
-        if not gmaps_api_request.address:
-            logging.warning("GmapsApiError")
-            return return_infos(error=True,
-                                message=random.choice(
-                                    ADDRESS_FAILURE_MESSAGES))
-
     except GmapsApiError as error:
         logging.warning("GmapsApiError : %s", error)
         return return_infos(error=True,
@@ -90,12 +88,6 @@ API : %s, %s", lat, lng)
 
     try:
         mediawiki_api_request = MediaWikiApiRequest(lat, lng)
-
-        if not mediawiki_api_request.summary:
-            logging.warning("MediaWikiError")
-            return return_infos(address=address, lat=lat, lng=lng,
-                                summary_message=random.choice(
-                                    SUMMARY_FAILURE_MESSAGES))
 
     except MediaWikiApiError as error:
         logging.warning("MediaWikiError : %s", error)
