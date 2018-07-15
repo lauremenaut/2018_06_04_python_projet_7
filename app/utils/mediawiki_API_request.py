@@ -18,9 +18,8 @@ class MediaWikiApiRequest:
 
     """ Set MediaWikiApiRequest class.
 
-    Consist of a constructor & 2 private methods :
-        - _get_page_id()
-        - _get_summary()
+    Consist of a constructor setting a public attribute containing
+    the summary of an article sent back by MediaWiki API.
 
     """
 
@@ -41,7 +40,7 @@ class MediaWikiApiRequest:
         Receive 2 floating numbers from contructor.
         Send request to MediaWiki API.
         Return an integer corresponding to the page ID of the MediaWiki
-        article referenced as being next to the searched position.
+        article related to the searched position.
 
         """
         lat_lng = "|".join([str(lat), str(lng)])

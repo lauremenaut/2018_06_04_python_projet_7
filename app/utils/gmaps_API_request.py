@@ -19,7 +19,8 @@ class GmapsApiRequest:
 
     """ Set GmapsApiRequest class.
 
-    Consist of a constructor & 1 private method : _get_position_info()
+    Consist of a constructor setting public attributes containing
+    position informations sent back by Google Maps API.
 
     """
 
