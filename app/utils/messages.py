@@ -24,7 +24,7 @@ ADDRESS_FAILURE_MESSAGES = [
 me souvenir de l'adresse ...",
     "GrandPy : Je m'excuse, je ne me souviens pas où cela se trouve :-/",
     "GrandPy : Oh, j'ai beau réfléchir, je ne me souviens plus de cette \
-adresse",
+adresse ...",
     "GrandPy : Je suis vraiment désolé, j'ai oublié où cela se trouve ...",
     "GrandPy : C'est que je me fais vieux ... impossible de me rappeler de \
 cette adresse :-/"
