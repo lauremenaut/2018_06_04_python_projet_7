@@ -23,19 +23,12 @@ l'adresse du centre équestre Cantegril ?")
 #     parser = Parser("Salut GrandPy ! Est-ce que tu connais, par \
 # hasard, l'adresse du centre équestre Cantegril ?")
 
-#     def test_cut_into_sentences(self):
-#         sentences = self.parser._cut_into_sentences("Salut GrandPy ! \
-# Est-ce que tu connais, par hasard, l'adresse du centre équestre \
-# Cantegril ?")
-#         assert sentences == ["Salut GrandPy ", " Est-ce que tu \
-# connais", " par hasard", " l'adresse du centre équestre Cantegril ?"]
-
-#     def test_choose_sentence(self):
-#         chosen_sentence = self.parser._choose_sentence(["Salut \
-# GrandPy ", " Est-ce que tu connais", " par hasard", " l'adresse du \
-# centre équestre Cantegril ?"])
-#         assert chosen_sentence == "Est-ce que tu connais l'adresse \
-# du centre équestre Cantegril ? "
+#     def test_choose_best_sentence_part(self):
+#         chosen_part_of_query = self.parser._choose_best_sentence_part(
+#             "Salut GrandPy ! Est-ce que tu connais, par hasard, \
+# l'adresse du centre équestre Cantegril ?")
+#         assert chosen_part_of_query == "Est-ce que tu connais \
+# l'adresse du centre équestre Cantegril ? "
 
 #     def test_filter_words(self):
 #         relevant_words = self.parser._filter_words(["Salut", "GrandPy\

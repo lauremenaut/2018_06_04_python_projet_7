@@ -18,11 +18,8 @@ class Parser:
 
     """ Set Parser class.
 
-    Consist of 4 private methods :
-        - _parse()
-        - _cut_into_sentences()
-        - _choose_sentence()
-        - _filter_words()
+    Consist of a constructor setting a public attribute containing
+    a list of relevant words extracted from user query.
 
     """
 
@@ -43,51 +40,43 @@ class Parser:
         Return a list of relevant words.
 
         """
-        sentences = self._cut_into_sentences(user_query)
-        chosen_sentence = self._choose_sentence(sentences)
-        words = re.split("[ ']", chosen_sentence)
+        chosen_part_of_query = self._choose_best_sentence_part(user_query)
+        words = re.split("[ ']", chosen_part_of_query)
         relevant_words = self._filter_words(words)
         return relevant_words
 
-    def _cut_into_sentences(self, user_query):
-        """ Set _cut_into_sentences() method.
+    def _choose_best_sentence_part(self, user_query):
+        """ Set _choose_best_sentence_part() method.
 
         Receive the string containing user query.
-        Return a list containing sentences from user query cut according
-        punctuation, except '?'.
+        Return a string containing choosen sentence part according to
+        'question_words' list.
 
         """
-        cut_sentences = re.split('[!,:;.]', user_query)
-        return cut_sentences
+        # Cut user query into different parts according punctuation,
+        # except '?'.
+        parts_of_query = re.split('[!,:;.]', user_query)
 
-    def _choose_sentence(self, sentences):
-        """ Set _choose_sentence() method.
-
-        Receive a list of sentences.
-        Return a string containing choosen sentence according 'question
-        words'.
-
-        """
-        chosen_sentence = []
-        for sentence in sentences:
-            # Each sentence is cut into a list of words
-            words_of_sentence = re.split("[ ']", sentence)
-            # If at least one word is contained in 'question_words'
-            # list, then the sentence is added to 'chosen_sentence' list
-            for word in words_of_sentence:
+        chosen_part_of_query = []
+        for part in parts_of_query:
+            # Each part is cut into a list of words
+            words = re.split("[ ']", part)
+            # If at least one word is contained in question_words list,
+            # then the part is added to 'chosen_part_of_query' list
+            for word in words:
                 if word in QUESTION_WORDS:
-                    chosen_sentence.append(sentence.strip())
+                    chosen_part_of_query.append(part.strip())
                     break
-        # If no sentence was previously added to 'chosen_sentence',
-        # then all sentences are selected
-        if chosen_sentence == []:
-            for sentence in sentences:
-                chosen_sentence.append(sentence.strip())
-        # All sentences are concatenated into one string
-        returned_sentence = ""
-        for sentence in chosen_sentence:
-            returned_sentence += sentence + " "
-        return returned_sentence
+        # If no part was previously added to 'chosen_part_of_query',
+        # then all parts are selected
+        if chosen_part_of_query == []:
+            for part in parts_of_query:
+                chosen_part_of_query.append(part.strip())
+        # All parts are concatenated into one string
+        returned_part = ""
+        for part in chosen_part_of_query:
+            returned_part += part + " "
+        return returned_part
 
     def _filter_words(self, words):
         """ Set _filter_words() method.
