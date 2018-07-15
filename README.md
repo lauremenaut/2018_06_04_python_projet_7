@@ -15,5 +15,4 @@ Here are some examples GrandPy Bot is able to give an answer :
     Quelle est l'adresse de la piscine de Foix ?
     Où se trouve l'Arc de triomphe à Paris ?
     Salut papy robot, quelle est l'adresse du cinéma le plus proche ?
-    Comment aller à l'hôpital s'il te plait ... je suis à New York !
     Salut GrandPy ! Est-ce que tu connais, par hasard, l'adresse du centre équestre de Cantegril ?
