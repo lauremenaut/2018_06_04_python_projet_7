@@ -39,7 +39,7 @@ class GmapsApiRequest:
             self.lng = position_info['geometry']['location']['lng']
 
     def _get_position_info(self, query):
-        """ Set _get_position_info() method.
+        """ Set _get_position_info() private method.
 
         Receive the list of relevant words from constructor.
         Send request to Google Maps API.

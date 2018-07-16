@@ -6,7 +6,6 @@
 import logging
 import random
 
-from app.exceptions import ParserError, GmapsApiError, MediaWikiApiError
 from app.utils.parser import Parser
 from app.utils.gmaps_API_request import GmapsApiRequest
 from app.utils.mediawiki_API_request import MediaWikiApiRequest
@@ -16,6 +15,7 @@ from app.utils.messages import (ADDRESS_SUCCESS_MESSAGES,
                                 SUMMARY_SUCCESS_MESSAGES,
                                 SUMMARY_FAILURE_MESSAGES,
                                 NEXT_QUESTION_MESSAGES)
+from app.exceptions import ParserError, GmapsApiError, MediaWikiApiError
 
 
 def locate(query):
@@ -23,25 +23,11 @@ def locate(query):
 
     Receive a string containing user query.
     Use Parser, GmapsApiRequest and MediaWikiApiRequest classes.
-    Return a list of 8 variables :
-    - error : a boolean, False if an address is found, else True
-    - message : a string randomly chosen in messages lists
-    - address : a string containing the address of the searched place
-    (sent back by Google Maps API), or None
-    - lat : a floating number representing latitude (sent back by Google
-    Maps API), or None
-    - lng : a floating number representing longitude (sent back by
-    Google Maps API), or None
-    - summary_message : a string randomly chosen in messages lists, or
-    None
-    - summary : a string containing information about the searched place
-    (sent back by MediaWiki API), or None
-    - next_question_message : a string randomly chosen in messages
-    list, or None
+    Return a tuple of 8 variables via return_infos() method.
 
     """
-    # 'error' variable is True only if no address is returned (parser
-    # failure & address failure)
+    # 'error' variable is True only if no address is returned (in parser
+    # failure & address failure cases)
     def return_infos(error=False,
                      message=random.choice(ADDRESS_SUCCESS_MESSAGES),
                      address=None,
@@ -51,7 +37,30 @@ def locate(query):
                      summary=None,
                      next_question_message=random.choice(
                          NEXT_QUESTION_MESSAGES)):
-        """ Set return_infos() method. """
+        """ Set return_infos() method.
+
+        Receive 8 parameters :
+        - error : a boolean set to False by default. Switched to True if
+        no address is found.
+        - message : a string randomly chosen in messages list.
+        - address : a string set to None by default. Containing the
+        address of the searched place if previously found and sent back
+        by Google Maps API.
+        - lat : a floating number set to None by default. Containing the
+        latitude of the searched place if previously found and sent back
+        by Google Maps API.
+        - lng : a floating number set to None by default. Containing the
+        longitude of the searched place if previously found and sent back
+        by Google Maps API.
+        - summary_message : a string randomly chosen in messages list.
+        - summary : a string set to None by default. Containing
+        informative text about the searched place if previously found
+        and sent back by MediaWiki API.
+        - next_question_message : a string randomly chosen in messages
+        list.
+        Return a tuple containing these 8 variables.
+
+        """
         if error:
             summary_message = None
             next_question_message = None
@@ -60,6 +69,7 @@ def locate(query):
                 summary_message, summary, next_question_message)
 
     try:
+        # Extract relevant words of user query.
         parser = Parser(query)
         logging.debug("Here are relevant words selected by parser : %s",
                       parser.query_relevant_words)
@@ -69,11 +79,14 @@ def locate(query):
 
     except ParserError as error:
         logging.warning("ParserError : %s", error)
+        # If no relevant words found, error is True. Neither address,
+        # nor summary are returned. End of process.
         return return_infos(error=True,
                             message=random.choice(
                                 PARSER_FAILURE_MESSAGES))
 
     try:
+        # Ask data to Google Maps Geocoding API.
         gmaps_api_request = GmapsApiRequest(parser.query_relevant_words)
         address = gmaps_api_request.address
         lat = gmaps_api_request.lat
@@ -83,17 +96,26 @@ API : %s, %s", lat, lng)
 
     except GmapsApiError as error:
         logging.warning("GmapsApiError : %s", error)
+        # If there is no data returned from Google Maps Geocoding API,
+        # then error becomes true. Neither address, nor summary are
+        # returned. End of process.
         return return_infos(error=True,
                             message=random.choice(ADDRESS_FAILURE_MESSAGES))
 
     try:
+        # Ask data to MediaWiki API.
         mediawiki_api_request = MediaWikiApiRequest(lat, lng)
+        summary = mediawiki_api_request.summary
 
     except MediaWikiApiError as error:
         logging.warning("MediaWikiError : %s", error)
+        # If there is no data returned from MediaWiki API, then only
+        # Google Maps data are returned.
         return return_infos(address=address, lat=lat, lng=lng,
                             summary_message=random.choice(
                                 SUMMARY_FAILURE_MESSAGES))
 
+    # If Parser, GmapsApiRequest & MediaWikiApiRequest return data, then
+    # all data are returned.
     return return_infos(address=address, lat=lat, lng=lng,
-                        summary=mediawiki_api_request.summary)
+                        summary=summary)

@@ -24,7 +24,7 @@ class Parser:
     """
 
     def __init__(self, user_query):
-        """ Parser constructor.
+        """ Set Parser constructor.
 
         Receive a string containing user query.
         Set 'self.query_relevant_words' attribute calling _parse()
@@ -34,7 +34,7 @@ class Parser:
         self.query_relevant_words = self._parse(user_query)
 
     def _parse(self, user_query):
-        """ Set _parse() method.
+        """ Set _parse() private method.
 
         Receive the string containing user query from constructor.
         Return a list of relevant words.
@@ -46,7 +46,7 @@ class Parser:
         return relevant_words
 
     def _choose_best_sentence_part(self, user_query):
-        """ Set _choose_best_sentence_part() method.
+        """ Set _choose_best_sentence_part() private method.
 
         Receive the string containing user query.
         Return a string containing choosen sentence part according to
@@ -79,7 +79,7 @@ class Parser:
         return returned_part
 
     def _filter_words(self, words):
-        """ Set _filter_words() method.
+        """ Set _filter_words() private method.
 
         Reveive a list of words.
         Return a list of relevant words.

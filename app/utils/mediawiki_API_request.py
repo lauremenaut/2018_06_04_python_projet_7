@@ -35,7 +35,7 @@ class MediaWikiApiRequest:
             self.summary = self._get_summary(pageid)
 
     def _get_pageid(self, lat, lng):
-        """ Set _get_pageid() method.
+        """ Set _get_pageid() private method.
 
         Receive 2 floating numbers from contructor.
         Send request to MediaWiki API.
@@ -70,7 +70,7 @@ class MediaWikiApiRequest:
 article ... ({})".format(error))
 
     def _get_summary(self, pageid):
-        """ Set _get_summary() method.
+        """ Set _get_summary() private method.
 
         Receive an integer representing page ID of MediaWiki.
         Send request to MediaWiki API.

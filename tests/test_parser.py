@@ -8,10 +8,18 @@ from app.utils.parser import Parser
 
 class TestParser:
 
-    """ Set TestParser class. """
+    """ Set TestParser class.
+
+    Consist of test_parser() method.
+
+    """
 
     def test_parser(self):
-        """ Set test_parser() method. """
+        """ Set test_parser() method.
+
+        Test that relevant words are extracted from the initial query.
+
+        """
         parser = Parser("Salut GrandPy ! Est-ce que tu connais, par hasard, \
 l'adresse du centre équestre Cantegril ?")
         assert parser.query_relevant_words == [

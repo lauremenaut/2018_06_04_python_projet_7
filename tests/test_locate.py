@@ -15,15 +15,36 @@ from app.exceptions import GmapsApiError, MediaWikiApiError
 
 class TestLocate:
 
-    """ Set TestLocate class. """
+    """ Set TestLocate class.
+
+    Consist of 4 methods :
+    - test_locate_success()
+    - test_locate_parser_failure()
+    - test_locate_address_failure()
+    - test_locate_summary_failure()
+
+    """
 
     def test_locate_success(self, monkeypatch):
-        """ Set test_locate_success() method. """
+        """ Set test_locate_success() method.
+
+        Set a mock of GmapsApiRequest & MediaWikiApiRequest
+        constructors.
+        Test locate() method with a query that leads to success
+        (address & summary).
+
+        """
         class MockApis:
 
             """ Set MockApis class. """
 
             def __init__(self, param1="", param2=""):
+                """ MockApis constructor.
+
+                Set 4 attributes : self.address, self.lat, self.lng &
+                self.summary
+
+                """
                 self.address = '1B Avenue du Général de Gaulle, 09000 Foix,\
  France'
                 self.lat = 42.9600983
@@ -46,12 +67,20 @@ Foix, France"
         assert locate_return[7] in NEXT_QUESTION_MESSAGES
 
     def test_locate_parser_failure(self, monkeypatch):
-        """ Set test_locate_parser_failure() method. """
+        """ Set test_locate_parser_failure() method.
+
+        Set a mock of GmapsApiRequest & MediaWikiApiRequest
+        constructors.
+        Test locate() method with a query that leads to parser failure
+        (no address, no summary).
+
+        """
         class MockApis:
 
             """ Set MockApis class. """
 
             def __init__(self, param1="", param2=""):
+                """ MockApis constructor. """
                 pass
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
@@ -69,12 +98,24 @@ Foix, France"
         assert locate_return[7] is None
 
     def test_locate_address_failure(self, monkeypatch):
-        """ Set test_locate_address_failure() method. """
+        """ Set test_locate_address_failure() method.
+
+        Set a mock of GmapsApiRequest & MediaWikiApiRequest
+        constructors.
+        Test locate() method with a query that leads to address failure
+        (no address, no summary).
+
+        """
         class MockApis:
 
             """ Set MockApis class. """
 
             def __init__(self, param1="", param2=""):
+                """ MockApis constructor.
+
+                Raise GmapsApiError.
+
+                """
                 raise GmapsApiError()
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
@@ -93,12 +134,25 @@ d'Openclassrooms")
         assert locate_return[7] is None
 
     def test_locate_summary_failure(self, monkeypatch):
-        """ Set test_locate_summary_failure() method. """
+        """ Set test_locate_summary_failure() method.
+
+        Set a mock of GmapsApiRequest & MediaWikiApiRequest
+        constructors.
+        Test locate() method with a query that leads to summary failure
+        (address, no summary).
+
+        """
         class MockApis:
 
             """ Set MockApis class. """
 
             def __init__(self, param1="", param2=""):
+                """ MockApis constructor.
+
+                Set 3 attributes : self.address, self.lat, self.lng.
+                Raise MediaWikiError.
+
+                """
                 self.address = "Atlantic Ocean"
                 self.lat = -14.5994134
                 self.lng = -28.6731465

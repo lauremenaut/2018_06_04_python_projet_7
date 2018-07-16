@@ -1,21 +1,25 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-""" Set TestGmapsApiRequest class.
-
-TestGmapsApiRequest class set a mock of 'get' method from gmaps_api_request.py.
-
-"""
+""" Set TestGmapsApiRequest class. """
 
 import app.utils.gmaps_API_request as gmaps
 
 
 class TestGmapsApiRequest:
 
-    """ Set TestGmapsApiRequest class. """
+    """ Set TestGmapsApiRequest class.
+
+    Consist of test_gmaps_api_request() method.
+
+    """
 
     def test_gmaps_api_request(self, monkeypatch):
-        """ Set test_gmaps_api_request() method. """
+        """ Set test_gmaps_api_request() method.
+
+        Set a mock of 'get' method from gmaps_api_request.py.
+
+        """
         results = {
             "results": [
                 {
@@ -33,7 +37,11 @@ class TestGmapsApiRequest:
 
         class MockResponse:
 
-            """ Set MockResponse class. """
+            """ Set MockResponse class.
+
+            Consist of json() & status_code() methods.
+
+            """
 
             def json(self):
                 """ Set json() method. """
