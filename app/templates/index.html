@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
         <title>GrandPy Bot</title>
     </head>
+
     <body>
+
         <header>
             <img src="{{ url_for('static', filename='img/vieux-robot-fatigue.jpg') }}" alt="GrandPy Bot" class="grandpa_bot" />
             <br />
@@ -35,5 +38,7 @@
         <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="{{ url_for('static', filename='js/index.js') }}"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script>
+
     </body>
+
 </html>
