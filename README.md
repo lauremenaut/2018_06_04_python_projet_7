@@ -10,7 +10,7 @@ In addition to returning the address, the application will display a short story
 Note that the application interacts with user using french language.
 
 Here are some examples GrandPy Bot is able to give an answer :
-    Bonjour GrandPy, comment ça va ? J'aimerais savoir comment aller au Jardin Botanique de Montréal.
+    Bonjour GrandPy, comment ça va ? J'aimerais savoir comment aller au Centre des Sciences de Montréal.
     J'aimerais aller voir la Tour Eiffel, peux-tu m'aider ?
     Quelle est l'adresse de la piscine de Foix ?
     Où se trouve l'Arc de triomphe à Paris ?
