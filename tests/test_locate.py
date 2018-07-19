@@ -116,7 +116,8 @@ Foix, France"
                 Raise GmapsApiError.
 
                 """
-                raise GmapsApiError()
+                raise GmapsApiError("GoogleMaps didn't find any matching place\
+ ...")
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
         monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
@@ -157,7 +158,8 @@ d'Openclassrooms")
                 self.lat = -14.5994134
                 self.lng = -28.6731465
                 if param2:
-                    raise MediaWikiApiError()
+                    raise MediaWikiApiError("MediaWiki didn't find any \
+matching article ...")
 
         monkeypatch.setattr(app.locate, 'GmapsApiRequest', MockApis)
         monkeypatch.setattr(app.locate, 'MediaWikiApiRequest', MockApis)
