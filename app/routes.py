@@ -39,4 +39,4 @@ def query_locate():
 
     """
     form = QueryForm()
-    return jsonify({'localisation': locate(form.query.data)})
+    return jsonify({'location': locate(form.query.data)})
