@@ -11,16 +11,18 @@
 
         <header>
             <img src="{{ url_for('static', filename='img/vieux-robot-fatigue.jpg') }}" alt="GrandPy Bot" class="grandpa_bot" />
-            <br />
+            <br>
             <h1>Besoin d'une adresse ? GrandPy Bot est là pour vous !</h1>
-            <br />
+            <br>
             <hr/>
-            <h3>On dit même qu'il a toujours une petite histoire à raconter ...</h1>
+            <h3>On dit même qu'il a toujours une petite histoire à raconter ...</h3>
         </header>
 
         <section>
-            <div id="dialogue_area">GrandPy : Bonjour mon ami, as-tu une question pour moi ?<br></div>
-            <div id="map"></div>
+            <div id="dialogue_area">GrandPy : Bonjour mon ami, as-tu une question pour moi ?<br>
+            </div>
+            <div id="map">
+            </div>
             <form method="post" action="" id="query_field">
                 {{ form.hidden_tag() }}
                 <p>
