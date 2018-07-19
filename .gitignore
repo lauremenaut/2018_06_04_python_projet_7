@@ -8,3 +8,4 @@ app/__init__.pyc
 htmlcov/
 .coverage
 log.log
+private_config.txt
