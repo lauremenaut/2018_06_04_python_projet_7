@@ -79,7 +79,7 @@ d\'accès à ma mémoire ...<br>');
 }
 
 $(function() {
-    $('#query').keypress(function(e){
+    $('#query').keyup(function(e){
         // 13 is key code for 'Enter' key
         if (e.which == 13) {
             // 'query' is the user input in query field
